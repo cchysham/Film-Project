@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="DESCRIPTION HERE">
+    <meta name="author" content="Connor Hysham, Jaymes Johnson, Kimberly Cooper">
+    <link rel="icon" href="assets/images/icon.png">
+    <title>Film Finder</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        crossorigin="anonymous">
+    <!-- Additional CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+</head>
+
+<body>
+
+    <!-- ============  NAVBAR =============== -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Film Finder</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto" id="login">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Login
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <form>
+                                <div class="form-group">
+                                    <label for="input-email" class="sr-only">Email address</label>
+                                    <input type="email" class="form-control" id="input-email" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-password" class="sr-only">Password</label>
+                                    <input type="password" class="form-control" id="input-password" placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0 ml-auto d-none" id="navbarSearch">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==============  CONTENT =================  -->
+
+    <div class="row justify-content-center align-items-center fixed-height m-0" id="content">
+
+        <!-- ============  WELCOME ======================== -->
+
+        <div class="col-md-8 col-lg-6" id="welcome-search">
+            <section class="jumbotron text-center">
+                <div class="container">
+                    <h1 class="jumbotron-heading">Welcome to Film Finder</h1>
+                    <p class="lead text-muted">Your one stop shop for all your film finding needs.</p>
+                    <form class="form-inline">
+                        <label class="sr-only" for="input-search">Search</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="input-search" placeholder="Enter your search here">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- ============  PAGE ====================== -->
+
+        <div class="col-md-11 col-lg-10 d-none" id="page-content">
+            <div class="bg-light p-5 mb-4 mt-3 w-100 h-100 rounded">
+
+                <!-- =============  BIO  ============ -->
+                <div class="row mb-4">
+                    <div class="col-md-4 text-center">
+                        <img src="http://placehold.it/300x300" class="img-fluid img-thumbnail" id="bio-img" alt="img text">
+                    </div>
+                    <div class="col-md-8 text-center">
+                        <div class="card text-left">
+                            <div class="card-body" id="bio-text">
+                                <h5 class="card-title" id="bio-title">This is the Title</h5>
+                                <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi perspiciatis deserunt pariatur
+                                    dicta ipsum. Odit, nihil a cumque explicabo sunt laudantium officiis esse perspiciatis
+                                    numquam, accusantium, maxime distinctio accusamus est!</p>
+                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi perspiciatis deserunt pariatur
+                                    dicta ipsum. Odit, nihil a cumque explicabo sunt laudantium officiis esse perspiciatis
+                                    numquam, accusantium, maxime distinctio accusamus est!</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =====================  FILMOGRAPHY ======================== -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="filmTab-title">FILMOGRAPHY</a>
+                    </li>
+                </ul>
+                <div class="row no-gutters justify-content-between bg-dark p-2 mb-4" id="film-content">
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-1 text-center">
+                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
+                    </div>
+
+                </div>
+
+
+                <!-- =====================  VIDEOS ======================== -->
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="filmTab-title">VIDEOS</a>
+                    </li>
+                </ul>
+                <div class="row no-gutters justify-content-between bg-dark p-2" id="film-content">
+                    <div class="col-4 text-center">
+                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    </div>
+                    <div class="col-4 text-center">
+                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- ====================  RECENT SEARCHES ===================== -->
+        <div class="container d-none" id="prev-search">
+
+            <h6 class="text-light">RECENT SEARCHES</h6>
+
+            <div class="d-flex flex-row rounded p-2 mb-4">
+
+                <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                </div>
+                <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                </div>
+                <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <footer class="footer bg-dark fixed-bottom">
+        <div class="container">
+            <span class="text-muted">Place sticky footer content here.</span>
+        </div>
+    </footer>
+
+
+
+    <!-- ==========================  JAVASCRIPT ===================================== -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+    <!-- Firebase -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script> -->
+
+    <!-- Moment.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script> -->
+
+    <!-- App js  -->
+    <script src="assets/javascript/app.js"></script>
+
+
+</body>
+
+</html>
