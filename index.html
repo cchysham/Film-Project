@@ -68,7 +68,7 @@
 
     <!-- ==============  CONTENT =================  -->
 
-    <div class="row justify-content-center align-items-center m-0" id="content">
+    <div class="row justify-content-center align-items-center fixed-height m-0" id="content">
 
         <!-- ============  WELCOME ======================== -->
 
@@ -97,7 +97,7 @@
         <!-- ============  PAGE ====================== -->
 
         <div class="col-md-11 col-lg-10 d-none" id="page-content">
-            <div class="bg-light p-5 w-100 h-100 rounded">
+            <div class="bg-light p-5 mb-4 mt-3 w-100 h-100 rounded">
 
                 <!-- =============  BIO  ============ -->
                 <div class="row mb-4">
@@ -165,7 +165,7 @@
                         <a class="nav-link active" id="filmTab-title">VIDEOS</a>
                     </li>
                 </ul>
-                <div class="row no-gutters justify-content-between bg-dark p-2 mb-4" id="film-content">
+                <div class="row no-gutters justify-content-between bg-dark p-2" id="film-content">
                     <div class="col-4 text-center">
                         <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
                     </div>
@@ -183,16 +183,35 @@
         </div>
 
         <!-- ====================  RECENT SEARCHES ===================== -->
+        <div class="container d-none" id="prev-search">
+
+            <h6 class="text-light">RECENT SEARCHES</h6>
+
+            <div class="d-flex flex-row rounded p-2 mb-4">
+
+                <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                </div>
+                <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                </div>
+                <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                </div>
+
+            </div>
+        </div>
+
 
     </div>
 
 
 
-    <!-- <footer class="footer bg-dark">
+    <footer class="footer bg-dark fixed-bottom">
         <div class="container">
             <span class="text-muted">Place sticky footer content here.</span>
         </div>
-    </footer> -->
+    </footer>
 
 
 

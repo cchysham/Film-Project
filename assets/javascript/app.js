@@ -7,17 +7,23 @@ $(document).ready(function () {
         this.welcomeView = function () {
             makeVis("login", true);
             makeVis("welcome-search", true);
+            $("#content").addClass("fixed-height");
+            $("footer").addClass("fixed-bottom");
             //
             makeVis("navbarSearch", false);
             makeVis("page-content", false);
+            makeVis("prev-search",false);
         }
 
         this.pageView = function () {
             makeVis("login", false);
             makeVis("welcome-search", false);
+            $("#content").removeClass("fixed-height");
+            $("footer").removeClass("fixed-bottom")
             //
             makeVis("navbarSearch", true);
             makeVis("page-content", true);
+            makeVis("prev-search",true);
         }
 
         function init() {
