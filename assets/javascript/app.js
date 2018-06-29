@@ -15,24 +15,29 @@ $(document).ready(function () {
     /*===============  SEARCH  =============== */
     /*======================================== */
 
-    $("#search-button").on("click", navSearch);
-    $("#wSearch-btn").on("click", welSearch);
+    $("#search-button").on("click", searchBtnPress);
+    $("#wSearch-btn").on("click", searchInputPress);
 
-    function welSearch(e) {
+    function searchInputPress(e) {
       e.preventDefault();
-      searchBtnPress($("#input-search").val());
+      var q = $("#input-search").val();
       $("#input-search").val('');
-    }
-
-    function navSearch(e) {
-      e.preventDefault();
-      searchBtnPress($("#query").val());
-      $("#query").val('');
-    }
-
-    function searchBtnPress(q) {
+      //
       searchOMDB(q);
       searchYT(q, 11);
+
+      //
+      pageView();
+    }
+
+    function searchBtnPress(e) {
+      e.preventDefault();
+      var q = $("#query").val();
+      $("#query").val('');
+      //
+      searchOMDB(q);
+      searchYT(q, 11);
+
       //
       pageView();
     }
@@ -189,6 +194,7 @@ $(document).ready(function () {
     //
     // end
   }
+
 
   var myFinder = new FilmFinder();
   myFinder.start();
