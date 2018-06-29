@@ -34,6 +34,19 @@ body{
     text-align: center;
   }
   
+  .navbar-toggler{
+    font-size: 2.25rem;
+    border:0;
+  }
+
+  .input-group-text{
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  #query{
+    width: calc(100% - 85px);
+  }
 
 .fixed-height{
     height: calc(100% - 56px);
