@@ -25,11 +25,34 @@
 
 <body>
 
+    <!-- =============  MODAL ==============  -->
+
+    <div class="modal fade" id="vidModal" tabindex="-1" role="dialog" aria-labelledby="vidModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="vidModalLabel">Video Title</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="http://placehold.it/800x500" alt="sample vid" class="img-fluid">
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
     <!-- ============  NAVBAR =============== -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Film Finder</a>
+            <a class="navbar-brand" href="#">
+                    <img src="assets/images/icon.png" width="30" height="30" alt="">&nbsp;Film Finder</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -88,7 +111,7 @@
                             <input type="text" class="form-control" id="input-search" placeholder="Enter your search here">
                         </div>
 
-                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        <button type="submit" id="wSearch-btn" class="btn btn-primary mb-2">Submit</button>
                     </form>
                 </div>
             </section>
@@ -126,7 +149,7 @@
                         <a class="nav-link active" id="filmTab-title">FILMOGRAPHY</a>
                     </li>
                 </ul>
-                <div class="row no-gutters justify-content-between bg-dark p-2 mb-4" id="film-content">
+                <div class="row no-gutters justify-content-between bg-dark px-2 py-3 mb-4" id="film-content">
                     <div class="col-1 text-center">
                         <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
                     </div>
@@ -165,17 +188,55 @@
                         <a class="nav-link active" id="filmTab-title">VIDEOS</a>
                     </li>
                 </ul>
-                <div class="row no-gutters justify-content-between bg-dark p-3" id="film-content2">
-                    <div class="col-4 text-center">
-                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                <div class="scrolling-wrapper-flexbox bg-dark p-3" id="vid-content">
+
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
                     </div>
-                    <div class="col-4 text-center">
-                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
                     </div>
-                    <div class="col-4 text-center">
-                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
                     </div>
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+
                 </div>
+                <!-- <div class="row no-gutters justify-content-between bg-dark p-2" id="vid-content">
+                    <div class="col-4 text-center">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="col-4 text-center">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="col-4 text-center">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+
+                </div> -->
+
+
             </div>
         </div>
 
