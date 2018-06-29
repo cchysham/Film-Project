@@ -16,29 +16,24 @@ $(document).ready(function () {
     /*===============  SEARCH  =============== */
     /*======================================== */
 
-    $("#search-button").on("click", searchBtnPress);
-    $("#wSearch-btn").on("click", searchInputPress);
+    $("#search-button").on("click", navSearch);
+    $("#wSearch-btn").on("click", welSearch);
 
-    function searchInputPress(e) {
+    function welSearch(e) {
       e.preventDefault();
-      var q = $("#input-search").val();
+      searchBtnPress($("#input-search").val());
       $("#input-search").val('');
-      //
-      searchOMDB(q);
-      searchYT(q, 11);
-
-      //
-      pageView();
     }
 
-    function searchBtnPress(e) {
+    function navSearch(e) {
       e.preventDefault();
-      var q = $("#query").val();
+      searchBtnPress($("#query").val());
       $("#query").val('');
-      //
+    }
+
+    function searchBtnPress(q) {
       searchOMDB(q);
       searchYT(q, 11);
-
       //
       pageView();
     }
@@ -89,43 +84,11 @@ $(document).ready(function () {
     /*======================================== */
 
     function addMovieInfo(obj) {
-
-
-      // Creating a div to hold the movie
-      var movieDiv = $("<div class='movie'>");
-
-      // Storing the rating data
-      // var rating = response.results[0].vote_average;
-      // console.log(rating);
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
-      // Creating an element to have the rating displayed
-      // var pOne = $("<p>").text("Rating: " + rating);
-      // Displaying the rating
-      // movieDiv.append(pOne);
-      // Storing the release year
-      // var released = response.results[0].release_date;
       $("#bio-subtitle").text("Released: " + obj.release_date);
-      // Creating an element to hold the release year
-      // var pTwo = $("<p>").text("Released: " + released);
-      // Displaying the release year
-      // movieDiv.append(pTwo);
-      // Storing the plot
-      // var plot = response.results[0].overview;
       $(".card-text").text(obj.overview);
-      // Creating an element to hold the plot
-      // var pThree = $("<p>").text("Plot: " + plot);
-      // Appending the plot
-      // movieDiv.append(pThree);
-      // Retrieving the URL for the image
-      // var imgURL = response.results[0].poster_path;
-      // Creating an element to hold the image
-      // var image = $("<img>").attr("src", "https://image.tmdb.org/t/p/w1280/" + imgURL);
-      $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path)
-      // Appending the image
-      // movieDiv.append(image);
-      // Putting the entire movie above the previous movies
-      // $("#movies-view").prepend(movieDiv);
+      $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
     }
 
     function addVid(vidID) {
