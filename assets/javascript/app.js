@@ -9,16 +9,15 @@ $(document).ready(function () {
       method: "GET"
     }).then(function (response) {
       $("#film-content2").empty();
-      for (var i = 0; i < 11; i++) {
+      for (var i = 0; i < 3; i++) {
         console.log(response);
-        console.log(response.items[i].id.videoId);
-        userInput = response.items[i].id.videoId;
-        console.log("Inside response" + userInput);
-        $("#film-content2").append(`<div class="col-4 text-center"><iframe width="420" height="315" src="https://www.youtube.com/embed/` + userInput + `"></iframe></div>`);
+        userInput = response.items[i].snippet.thumbnails.high;
+        console.log(userInput);
+        $("#film-content2").append(`<div class="col-4 text-center"><iframe width="300" height="200" src="https://www.youtube.com/embed/` + userInput + `"></iframe></div>`);
       }
     });
   });
-
+<iframe width="300" height="200" src="https://www.youtube.com/embed/` + userInput + `"></iframe>
   var FilmFinder = function () {
 
     this.start = init;
