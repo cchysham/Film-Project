@@ -60,7 +60,7 @@ $(document).ready(function () {
       var div = $("<div>").addClass("col-4 text-center");
       div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ vidID +`">
           <img src="`+ thumbID + `"alt="text" class="img-fluid" id="thumb"></a>`);
-      div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + title + `</div>`);
+      //div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + title + `</div>`);
       vidContent.append(div);
 
       div.find("a").on("click", function(){
