@@ -47,13 +47,23 @@ body{
     background-color:rgba(255,255,255,.15);
 }
 
+.scrolling-wrapper-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+.scrolling-wrapper-flexbox .card {
+    flex: 0 0 auto;
+}
+
 .no-gutters {
     margin-right: 0;
     margin-left: 0;
-  
-    > .col,
-    > [class*="col-"] {
-      padding-right: 0;
-      padding-left: 0;
-    }
   }
+
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
