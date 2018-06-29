@@ -49,43 +49,59 @@
 
     <!-- ============  NAVBAR =============== -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-xs navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="assets/images/icon.png" width="30" height="30" alt="">&nbsp;Film Finder</a>
+                <img src="assets/images/icon.png" width="30" height="30" alt="">&nbsp;Film Finder
+            </a>
 
-            <!-- ============  NAVBAR TOGGLER =============== -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div>
+                <!-- ============  SEARCH TOGGLER =============== -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#searchCollapse" aria-expanded="false" aria-controls="searchCollapse">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <!-- ============  LOGIN TOGGLER =============== -->
+                <button class="navbar-toggler" data-toggle="collapse" href="#loginCollapse" type="button" aria-expanded="false" aria-controls="loginCollapse">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
 
             <!-- ============  COLLAPSE =============== -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto" id="login">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Login
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <form>
-                                <div class="form-group">
-                                    <label for="input-email" class="sr-only">Email address</label>
-                                    <input type="email" class="form-control" id="input-email" aria-describedby="emailHelp" placeholder="Enter email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="input-password" class="sr-only">Password</label>
-                                    <input type="password" class="form-control" id="input-password" placeholder="Password">
-                                </div>
-                                <button type="submit" class="btn btn-block btn-primary">Submit</button>
-                            </form>
+            <div class="collapse multi-collapse navbar-collapse" id="loginCollapse">
+                <form class="form-inline my-2" id="login">
+                    <label class="sr-only" for="input-email">Enter Email</label>
+                    <div class="input-group ml-auto mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-at"></i>
+                            </div>
                         </div>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0 ml-auto d-none" id="navbarSearch">
+                        <input type="text" class="form-control" id="input-email" placeholder="Enter Email" aria-describedby="emailHelp">
+                    </div>
+
+                    <label class="sr-only" for="input-password">Password</label>
+                    <div class="input-group mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-unlock-alt"></i>
+                            </div>
+                        </div>
+                        <input type="password" class="form-control mr-sm-2" id="input-password" placeholder="Password">
+                    </div>
+
+                    <button id="login-submit" class="btn btn-outline-primary" type="submit">Submit</button>
+                </form>
+
+                <!-- ./COLLAPSE -->
+            </div>
+
+
+            <!-- ============  COLLAPSE =============== -->
+            <div class="collapse multi-collapse navbar-collapse" id="searchCollapse">
+                <form class="form-inline my-2 ml-auto" id="navbarSearch">
                     <input id="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button id="search-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 <!-- ./COLLAPSE -->
             </div>

@@ -57,9 +57,20 @@ $(document).ready(function () {
     /*======================================== */
 
     function addVid(vidID) {
-      var div = $("<div>").addClass("col-4 text-center");
-      div.append(`<iframe src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      var div = $("<div>").addClass("card m-2");
+      var a = $("<a>").attr({ "data-toggle": "modal", "data-target": "#vidModal", "data-vidID": vidID });
+      a.append(`<iframe src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      a.on("click", modalVid);
+      div.append(a);
       vidContent.append(div);
+    }
+
+    function modalVid(e) {
+      e.preventDefault();
+      var vidID = $(this).attr("data-vidID");
+      console.log(vidID);
+      $(".modal-body").empty();
+      $(".modal-body").append(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
     function clearPage() {
