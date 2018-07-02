@@ -36,7 +36,6 @@ $(document).ready(function () {
 
     function relFilmSearch(e) {
       e.preventDefault();
-      console.log($(this).attr("title"));
       searchBtnPress($(this).attr("title"));
     }
 
@@ -49,7 +48,7 @@ $(document).ready(function () {
       pageView();
     }
 
-    // http://www.omdbapi.com/?i=tt3896198&apikey=f1c265cf
+    
     function searchOMDB(movie) {
       var url = "https://api.themoviedb.org/3/search/movie";
       var obj = {
@@ -57,20 +56,20 @@ $(document).ready(function () {
         api_key: "67c6def7e44101cc4b977b7aa552d028"
       }
       url += '?' + $.param(obj);
-      // Creating an AJAX call for the specific movie button being clicked
+      // 
       $.ajax({
         url: url,
         method: "GET"
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         addMovieInfo(response.results[0]);
 
         //
         for (var i = 1; i < response.results.length; i++) {
-          console.log(response.results[i])
+          // console.log(response.results[i])
           addRelatedFilmTB(response.results[i]);
         }
-        console.log("length", $("#film-content > div").length);
+        //
         var val = ($("#film-content > div").length > 0);
         makeVis("film-content", val);
         makeVis("filmTab-title", val);
@@ -108,7 +107,7 @@ $(document).ready(function () {
       $("#bio-subtitle").text("Released: " + moment(obj.release_date).format('MMMM Do, YYYY'));
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
-      console.log(obj.backdrop_path);
+      //
       $("#content").css({
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
       });
@@ -177,7 +176,7 @@ $(document).ready(function () {
     }
 
     function welcomeView() {
-      // makeVis("login", true);
+      // 
       makeVis("welcome-search", true);
       $("#content").addClass("fixed-height");
       $("footer").addClass("fixed-bottom");
@@ -188,7 +187,7 @@ $(document).ready(function () {
     }
 
     function pageView() {
-      // makeVis("login", false);
+      // 
       makeVis("welcome-search", false);
       $("#content").removeClass("fixed-height");
       $("footer").removeClass("fixed-bottom")
