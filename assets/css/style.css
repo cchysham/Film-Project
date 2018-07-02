@@ -74,6 +74,47 @@ body{
     flex: 0 0 auto;
 }
 
+/* =========  HOVER ==========*/
+
+.vidTB:hover{
+    cursor: pointer;
+}
+
+.vidTB img{
+    transition: .5s ease;
+}
+
+.vidTB:hover img{
+    opacity:.5;
+}
+
+.vidTB:hover .tbTitle{
+    opacity:1;
+}
+
+.tbTitle{
+    background-color:#ED4A4E;
+    color:white;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-block;
+    position: absolute;
+    padding: 2px 0;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transition: .5s ease;
+    opacity:0;
+}
+
+/* ===========  RECENT SEARCHES  =================*/
+#prev-search h6{
+    text-shadow: 0 0 5px #000;
+}
+
+
 .no-gutters {
     margin-right: 0;
     margin-left: 0;

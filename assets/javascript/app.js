@@ -87,7 +87,7 @@ $(document).ready(function () {
 
     function addThumb(obj) {
       var title = obj.snippet.title;
-      var div = $("<div>").addClass("card m-2");
+      var div = $("<div>").addClass("card position-relative vidTB m-2");
       var a = $("<a>").attr({
         "data-toggle": "modal",
         "data-target": "#vidModal",
@@ -102,10 +102,8 @@ $(document).ready(function () {
       });
       a.append(img);
       div.append(a);
+      div.append(`<p class="tbTitle">` + title + `</p>`);
 
-      // div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ obj.id.videoId +`" title="`+obj.snippet.title+`">
-      //     <img src="`+ obj.snippet.thumbnails.medium.url + `"alt="text" class="img-fluid" id="thumb"></a>`);
-      // div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + obj.snippet.title + `</div>`);
       vidContent.append(div);
 
       div.find("a").on("click", modalVid);
@@ -119,7 +117,7 @@ $(document).ready(function () {
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
       console.log(obj.backdrop_path);
-      $("#content").css({"background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"});
+      $("#content").css({ "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover" });
     }
 
 
