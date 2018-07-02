@@ -75,7 +75,7 @@ $(document).ready(function () {
         console.log(response);
         clearPage();
         for (var i = 0; i < limit; i++) {
-          addThumb(response.items[i].snippet.thumbnails.medium.url, response.items[i].id.videoId, response.items[i].snippet.title);
+          addThumb(response.items[i]);
           // addVid(response.items[i].id.videoId);
         }
       });
@@ -85,17 +85,30 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
-    function addThumb(thumbID, vidID, title) {
-      var div = $("<div>").addClass("col-4 text-center");
-      div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ vidID +`">
-          <img src="`+ thumbID + `"alt="text" class="img-fluid" id="thumb"></a>`);
-      div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + title + `</div>`);
+    function addThumb(obj) {
+      var title = obj.snippet.title;
+      var div = $("<div>").addClass("card m-2");
+      var a = $("<a>").attr({
+        "data-toggle": "modal",
+        "data-target": "#vidModal",
+        "data-vidID": obj.id.videoId,
+        "title": title
+      });
+      var img = $("<img>").attr({
+        "src": obj.snippet.thumbnails.medium.url,
+        "alt": title,
+        "class": "img-fluid",
+        "id": "thumb"
+      });
+      a.append(img);
+      div.append(a);
+
+      // div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ obj.id.videoId +`" title="`+obj.snippet.title+`">
+      //     <img src="`+ obj.snippet.thumbnails.medium.url + `"alt="text" class="img-fluid" id="thumb"></a>`);
+      // div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + obj.snippet.title + `</div>`);
       vidContent.append(div);
 
-      div.find("a").on("click", function(){
-       var vidID = $(this).attr("thumbid");
-        $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
-      });
+      div.find("a").on("click", modalVid);
     }
 
 
@@ -109,19 +122,13 @@ $(document).ready(function () {
       $("#content").css({"background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"});
     }
 
-    function addVid(vidID) {
-      var div = $("<div>").addClass("card m-2");
-      var a = $("<a>").attr({ "data-toggle": "modal", "data-target": "#vidModal", "data-vidID": vidID });
-      a.append(`<iframe src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
-      a.on("click", modalVid);
-      div.append(a);
-      vidContent.append(div);
-    }
 
     function modalVid(e) {
       e.preventDefault();
       var vidID = $(this).attr("data-vidID");
+      var title = $(this).attr("title");
       console.log(vidID);
+      $(".modal-titale").text(title);
       $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
