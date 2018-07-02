@@ -38,8 +38,9 @@ $(document).ready(function () {
       pageView();
     }
 
+    // http://www.omdbapi.com/?i=tt3896198&apikey=f1c265cf
     function searchOMDB(movie) {
-      var url = "http://api.themoviedb.org/3/search/movie";
+      var url = "https://api.themoviedb.org/3/search/person";
       var obj = {
         query: movie,
         api_key: "67c6def7e44101cc4b977b7aa552d028"
