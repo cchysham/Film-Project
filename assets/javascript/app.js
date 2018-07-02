@@ -3,6 +3,7 @@ $(document).ready(function () {
   var FilmFinder = function () {
 
     var vidContent = $("#vid-content");
+    var filmContent = $("#film-content");
 
     this.start = init;
     this.welView = welcomeView;
@@ -32,6 +33,7 @@ $(document).ready(function () {
     }
 
     function searchBtnPress(q) {
+      clearPage();
       searchOMDB(q);
       searchYT(q, 11);
       //
@@ -53,6 +55,12 @@ $(document).ready(function () {
       }).then(function (response) {
         console.log(response);
         addMovieInfo(response.results[0]);
+
+        //
+        for (var i = 1; i < response.results.length; i++) {
+          console.log(response.results[i])
+          addRelatedFilmTB(response.results[i]);
+        }
       });
 
     }
@@ -71,12 +79,9 @@ $(document).ready(function () {
         url: url,
         method: "GET"
       }).then(function (response) {
-
         console.log(response);
-        clearPage();
         for (var i = 0; i < limit; i++) {
           addThumb(response.items[i]);
-          // addVid(response.items[i].id.videoId);
         }
       });
     }
@@ -105,10 +110,8 @@ $(document).ready(function () {
       div.append(`<p class="tbTitle">` + title + `</p>`);
 
       vidContent.append(div);
-
       div.find("a").on("click", modalVid);
     }
-
 
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
@@ -120,17 +123,27 @@ $(document).ready(function () {
       $("#content").css({ "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover" });
     }
 
+    function addRelatedFilmTB(obj) {
+      if(obj.poster_path == null) return;
+      var div = $("<div>").addClass("card m-1 filmTB");
+      div.append(`<img src="https://image.tmdb.org/t/p/w1280/` + obj.poster_path + `" alt="` + obj.original_title + `">`);
+      div.append(`<p class="tbTitle">` + obj.original_title + `</p>`);
+      
+      filmContent.append(div);
+    }
+
 
     function modalVid(e) {
       e.preventDefault();
       var vidID = $(this).attr("data-vidID");
       var title = $(this).attr("title");
       console.log(vidID);
-      $(".modal-titale").text(title);
+      $(".modal-title").text(title);
       $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
     function clearPage() {
+      filmContent.empty();
       vidContent.empty();
     }
 
