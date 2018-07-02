@@ -74,7 +74,7 @@ body{
     overflow-x: auto;
   }
 
-.scrolling-wrapper-flexbox .card {
+.scrolling-wrapper-flexbox .card, .scrolling-wrapper-flexbox #recentTB {
     flex: 0 0 auto;
 }
 
@@ -126,6 +126,16 @@ body{
 /* ===========  RECENT SEARCHES  =================*/
 #prev-search h6{
     text-shadow: 0 0 5px #000;
+}
+
+#recentTB{
+    width:150px;
+    height:150px;
+    cursor: pointer;
+}
+
+.clip-circle{
+    clip-path: circle(75px at center);
 }
 
 

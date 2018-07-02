@@ -5,6 +5,8 @@ $(document).ready(function () {
     var vidContent = $("#vid-content");
     var filmContent = $("#film-content");
 
+    var search_arr = [];
+
     this.start = init;
     this.welView = welcomeView;
     this.pgView = pageView;
@@ -43,6 +45,7 @@ $(document).ready(function () {
       searchOMDB(q);
       searchYT(q, 11);
       //
+      search_arr.unshift({ text: q, img: undefined });
       pageView();
     }
 
@@ -76,7 +79,6 @@ $(document).ready(function () {
     }
 
 
-
     function searchYT(query, limit) {
       var url = "https://www.googleapis.com/youtube/v3/search";
       var obj = {
@@ -99,6 +101,31 @@ $(document).ready(function () {
     /*======================================== */
     /*===============  VIEW  ================= */
     /*======================================== */
+
+    function addMovieInfo(obj) {
+      $("#bio-title").text(obj.original_title);
+      $("#bio-small").text("Rating: " + obj.vote_average);
+      $("#bio-subtitle").text("Released: " + moment(obj.release_date).format('MMMM Do, YYYY'));
+      $(".card-text").text(obj.overview);
+      $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
+      console.log(obj.backdrop_path);
+      $("#content").css({
+        "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
+      });
+      //
+      search_arr[0].img = obj.poster_path;
+      addRecentSearch();
+    }
+
+    function addRelatedFilmTB(obj) {
+      if (obj.poster_path == null) return;
+      var div = $("<div>").addClass("card m-1 filmTB");
+      div.attr("title", obj.original_title);
+      div.append(`<img src="https://image.tmdb.org/t/p/w1280/` + obj.poster_path + `" alt="` + obj.original_title + `">`);
+      div.append(`<p class="tbTitle">` + obj.original_title + `</p>`);
+      div.on("click", relFilmSearch);
+      filmContent.append(div);
+    }
 
     function addThumb(obj) {
       var title = obj.snippet.title;
@@ -123,26 +150,6 @@ $(document).ready(function () {
       a.on("click", modalVid);
     }
 
-    function addMovieInfo(obj) {
-      $("#bio-title").text(obj.original_title);
-      $("#bio-small").text("Rating: " + obj.vote_average);
-      $("#bio-subtitle").text("Released: " + moment(obj.release_date).format('MMMM Do, YYYY'));
-      $(".card-text").text(obj.overview);
-      $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
-      console.log(obj.backdrop_path);
-      $("#content").css({ "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover" });
-    }
-
-    function addRelatedFilmTB(obj) {
-      if (obj.poster_path == null) return;
-      var div = $("<div>").addClass("card m-1 filmTB");
-      div.attr("title", obj.original_title);
-      div.append(`<img src="https://image.tmdb.org/t/p/w1280/` + obj.poster_path + `" alt="` + obj.original_title + `">`);
-      div.append(`<p class="tbTitle">` + obj.original_title + `</p>`);
-      div.on("click", relFilmSearch);
-      filmContent.append(div);
-    }
-
     function modalVid(e) {
       e.preventDefault();
       var vidID = $(this).attr("data-vidID");
@@ -150,6 +157,18 @@ $(document).ready(function () {
       console.log(vidID);
       $(".modal-title").text(title);
       $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+    }
+
+    function addRecentSearch() {
+      makeVis("prev-search", true);
+      var div = $("<div>").attr({ "title": search_arr[0].text, "id": "recentTB" });
+      div.css({
+        "background": `url("https://image.tmdb.org/t/p/w1280/` + search_arr[0].img + `") no-repeat top center`,
+        "background-size": "100%"
+      });
+      div.addClass("img-fluid rounded-circle m-2");
+      div.on("click", relFilmSearch);
+      $("#recent-content").prepend(div);
     }
 
     function clearPage() {
@@ -176,7 +195,6 @@ $(document).ready(function () {
       //
       makeVis("navbarSearch", true);
       makeVis("page-content", true);
-      makeVis("prev-search", true);
     }
 
 
