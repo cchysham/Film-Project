@@ -32,6 +32,12 @@ $(document).ready(function () {
       $("#query").val('');
     }
 
+    function relFilmSearch(e) {
+      e.preventDefault();
+      console.log($(this).attr("title"));
+      searchBtnPress($(this).attr("title"));
+    }
+
     function searchBtnPress(q) {
       clearPage();
       searchOMDB(q);
@@ -61,6 +67,10 @@ $(document).ready(function () {
           console.log(response.results[i])
           addRelatedFilmTB(response.results[i]);
         }
+        console.log("length", $("#film-content > div").length);
+        var val = ($("#film-content > div").length > 0);
+        makeVis("film-content", val);
+        makeVis("filmTab-title", val);
       });
 
     }
@@ -110,7 +120,7 @@ $(document).ready(function () {
       div.append(`<p class="tbTitle">` + title + `</p>`);
 
       vidContent.append(div);
-      div.find("a").on("click", modalVid);
+      a.on("click", modalVid);
     }
 
     function addMovieInfo(obj) {
@@ -124,14 +134,14 @@ $(document).ready(function () {
     }
 
     function addRelatedFilmTB(obj) {
-      if(obj.poster_path == null) return;
+      if (obj.poster_path == null) return;
       var div = $("<div>").addClass("card m-1 filmTB");
+      div.attr("title", obj.original_title);
       div.append(`<img src="https://image.tmdb.org/t/p/w1280/` + obj.poster_path + `" alt="` + obj.original_title + `">`);
       div.append(`<p class="tbTitle">` + obj.original_title + `</p>`);
-      
+      div.on("click", relFilmSearch);
       filmContent.append(div);
     }
-
 
     function modalVid(e) {
       e.preventDefault();

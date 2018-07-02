@@ -25,6 +25,10 @@ body{
     max-width: 680px;
     padding: 0 15px;
   }
+
+  .nav-tabs{
+      border:0;
+  }
   
   .nav-tabs .nav-link{
     background-color: #343a40!important;
@@ -116,6 +120,7 @@ body{
     -ms-transform: translate(-50%, -50%);
     transition: .5s ease;
     opacity:0;
+    min-width: 100px;
 }
 
 /* ===========  RECENT SEARCHES  =================*/
