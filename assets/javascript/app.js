@@ -40,7 +40,7 @@ $(document).ready(function () {
 
     // http://www.omdbapi.com/?i=tt3896198&apikey=f1c265cf
     function searchOMDB(movie) {
-      var url = "https://api.themoviedb.org/3/search/person";
+      var url = "https://api.themoviedb.org/3/search/movie";
       var obj = {
         query: movie,
         api_key: "67c6def7e44101cc4b977b7aa552d028"
@@ -75,7 +75,8 @@ $(document).ready(function () {
         console.log(response);
         clearPage();
         for (var i = 0; i < limit; i++) {
-          addVid(response.items[i].id.videoId);
+          addThumb(response.items[i].snippet.thumbnails.medium.url, response.items[i].id.videoId, response.items[i].snippet.title);
+          // addVid(response.items[i].id.videoId);
         }
       });
     }
@@ -84,12 +85,28 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
+    function addThumb(thumbID, vidID, title) {
+      var div = $("<div>").addClass("col-4 text-center");
+      div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ vidID +`">
+          <img src="`+ thumbID + `"alt="text" class="img-fluid" id="thumb"></a>`);
+      div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + title + `</div>`);
+      vidContent.append(div);
+
+      div.find("a").on("click", function(){
+       var vidID = $(this).attr("thumbid");
+        $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      });
+    }
+
+
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
-      $("#bio-subtitle").text("Released: " + obj.release_date);
+      $("#bio-subtitle").text("Released: " + moment(obj.release_date).format('MMMM Do, YYYY'));
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
+      console.log(obj.backdrop_path);
+      $("#content").css({"background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"});
     }
 
     function addVid(vidID) {
