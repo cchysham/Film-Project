@@ -33,7 +33,6 @@ $(document).ready(function () {
     function searchBtnPress(q) {
       searchOMDB(q);
       searchYT(q, 11);
-      //
       pageView();
     }
 
