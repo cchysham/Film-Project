@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   var FilmFinder = function () {
 
     var vidContent = $("#vid-content");
@@ -9,6 +10,7 @@ $(document).ready(function () {
     this.start = init;
     this.welView = welcomeView;
     this.pgView = pageView;
+
 
     function init() {
       console.log("ready");
@@ -21,15 +23,26 @@ $(document).ready(function () {
     $("#search-button").on("click", navSearch);
     $("#wSearch-btn").on("click", welSearch);
 
+
     function welSearch(e) {
       e.preventDefault();
+<<<<<<< HEAD
       searchBtnPress($("#input-search").val().trim());
+=======
+      searchBtnPress($("#input-search").val());
+      saveSearches($("#input-search").val());
+>>>>>>> 9b4d69e3f85463dc9d5decc295e2ffe5ea8d3933
       $("#input-search").val('');
     }
 
     function navSearch(e) {
       e.preventDefault();
+<<<<<<< HEAD
       searchBtnPress($("#query").val().trim());
+=======
+      searchBtnPress($("#query").val());
+      saveSearches($("#query").val());
+>>>>>>> 9b4d69e3f85463dc9d5decc295e2ffe5ea8d3933
       $("#query").val('');
     }
 
@@ -55,7 +68,7 @@ $(document).ready(function () {
       var obj = {
         query: movie,
         api_key: "67c6def7e44101cc4b977b7aa552d028"
-      }
+      };
       url += '?' + $.param(obj);
       // 
       $.ajax({
@@ -78,7 +91,6 @@ $(document).ready(function () {
 
     }
 
-
     function searchYT(query, limit) {
       var url = "https://www.googleapis.com/youtube/v3/search";
       var obj = {
@@ -95,6 +107,10 @@ $(document).ready(function () {
         for (var i = 0; i < limit; i++) {
           addThumb(response.items[i]);
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9b4d69e3f85463dc9d5decc295e2ffe5ea8d3933
       });
     }
 
@@ -169,6 +185,7 @@ $(document).ready(function () {
       div.addClass("img-fluid rounded-circle m-2");
       div.on("click", relFilmSearch);
       $("#recent-content").prepend(div);
+<<<<<<< HEAD
     }
 
     function rmvDuplicateSearches(str) {
@@ -183,8 +200,9 @@ $(document).ready(function () {
       });
       search_arr = temp_arr;
       console.log(search_arr);
+=======
+>>>>>>> 9b4d69e3f85463dc9d5decc295e2ffe5ea8d3933
     }
-
 
     function clearPage() {
       filmContent.empty();
@@ -222,10 +240,113 @@ $(document).ready(function () {
         $("#" + id).addClass("d-none");
     }
 
-    //
-    //
-    // end
-  }
+    /*======================================== */
+    /*===============  FiREBASE  ================= */
+    /*======================================== */
+
+    var config = {
+      apiKey: "AIzaSyAjLL5b07IVCDO-ZAXzNbEZR9gsaxZ_2fA",
+      authDomain: "june-2018-48693.firebaseapp.com",
+      databaseURL: "https://june-2018-48693.firebaseio.com",
+      projectId: "june-2018-48693",
+      storageBucket: "june-2018-48693.appspot.com",
+      messagingSenderId: "977127869466"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
+    $("#login-submit").on("click", function (e) {
+      e.preventDefault();
+      var email = $("#input-email").val().trim();
+      var password = $("#input-password").val().trim();
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+      });
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
+      });
+    });
+
+    var user = firebase.auth().currentUser;
+    if (user != null) {
+      email = user.email;
+    }
+
+    function saveSearches(input) {
+      var user = firebase.auth().currentUser;
+      if (user != null) {
+        email = user.email;
+      }
+  
+      if (input.length > 0 || input.length > 0){
+        search_arr.push(input);
+      }
+      database.ref("/searches").push({
+        savedSearches: search_arr,
+        userEmail: email,
+      });
+    }
+
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        alert("user is signed in");
+      } else {
+        alert("user is not signed in");
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+    /*function userSetup() {
+      var user = $("#input-email").val().trim();
+      console.log(user);
+      var users = database.ref("/users").push();
+        users.set({
+          userName: user,
+        });
+
+      database.ref("/users").once("value", function(s){
+        $.each(s.val(), function(key, val){
+           var recentUser = val.userName;
+           if(recentUser === user){
+              console.log(recentUser);
+              return false;
+           }
+        });
+      });*/
+
+
+    // var userRef = database.ref("/users");
+
+    // using local storage - store email to local storage and firebase. store search data to firebase. 
+    //when user loads page, retrieve search data by matching email from local storage to firebase
+
+
+
+
+
+
+
+
+
+
+
+
+  };
 
   var myFinder = new FilmFinder();
   myFinder.start();
@@ -236,7 +357,7 @@ $(document).ready(function () {
   //     myFinder.welView();
   //   else if (e.key === "v")
   //     myFinder.pgView();
-  // })
+
 
   //
   //
