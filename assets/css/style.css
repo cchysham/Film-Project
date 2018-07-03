@@ -25,6 +25,10 @@ body{
     max-width: 680px;
     padding: 0 15px;
   }
+
+  .nav-tabs{
+      border:0;
+  }
   
   .nav-tabs .nav-link{
     background-color: #343a40!important;
@@ -34,6 +38,19 @@ body{
     text-align: center;
   }
   
+  .navbar-toggler{
+    font-size: 2.25rem;
+    border:0;
+  }
+
+  .input-group-text{
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  #query{
+    width: calc(100% - 85px);
+  }
 
 .fixed-height{
     height: calc(100% - 56px);
@@ -43,17 +60,94 @@ body{
     width: calc(100% - 86px);
 }
 
-#prev-search .d-flex{
-    background-color:rgba(255,255,255,.15);
+.set-height{
+    min-height:250px;
 }
+
+.bg-light{
+    background-color:rgba(255,255,255,.35)!important;
+}
+
+.scrolling-wrapper-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+.scrolling-wrapper-flexbox .card, .scrolling-wrapper-flexbox #recentTB {
+    flex: 0 0 auto;
+}
+
+/* =========  THUMBS ==========*/
+
+.vidTB:hover, .filmTB:hover{
+    cursor: pointer;
+}
+
+.filmTB img{
+    max-height:175px;
+    transition: .5s ease;
+}
+
+.vidTB img{
+    transition: .5s ease;
+}
+
+.vidTB:hover img, .filmTB:hover img{
+    opacity:.5;
+}
+
+.vidTB:hover .tbTitle, .filmTB:hover .tbTitle{
+    opacity:1;
+}
+
+.tbTitle{
+    background-color:#ED4A4E;
+    color:white;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-block;
+    position: absolute;
+    padding: 2px 0;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transition: .5s ease;
+    opacity:0;
+    min-width: 100px;
+}
+
+/* ===========  RECENT SEARCHES  =================*/
+#prev-search h6{
+    text-shadow: 0 0 5px #000;
+}
+
+#recentTB{
+    width:150px;
+    height:150px;
+    cursor: pointer;
+}
+
+.clip-circle{
+    clip-path: circle(75px at center);
+}
+
 
 .no-gutters {
     margin-right: 0;
     margin-left: 0;
-  
-    > .col,
-    > [class*="col-"] {
-      padding-right: 0;
-      padding-left: 0;
-    }
   }
+
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/*#title {
+    color: white;
+    top: 8px;
+    width: 250px;
+}*/

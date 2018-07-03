@@ -25,43 +25,85 @@
 
 <body>
 
+    <!-- =============  MODAL ==============  -->
+
+    <div class="modal fade" id="vidModal" tabindex="-1" role="dialog" aria-labelledby="vidModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="vidModalLabel">Video Title</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="http://placehold.it/800x500" alt="sample vid" class="img-fluid">
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
     <!-- ============  NAVBAR =============== -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-xs navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Film Finder</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/icon.png" width="30" height="30" alt="">&nbsp;Film Finder
+            </a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto" id="login">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Login
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <form>
-                                <div class="form-group">
-                                    <label for="input-email" class="sr-only">Email address</label>
-                                    <input type="email" class="form-control" id="input-email" aria-describedby="emailHelp" placeholder="Enter email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="input-password" class="sr-only">Password</label>
-                                    <input type="password" class="form-control" id="input-password" placeholder="Password">
-                                </div>
-                                <button type="submit" class="btn btn-block btn-primary">Submit</button>
-                            </form>
+            <div>
+                <!-- ============  SEARCH TOGGLER =============== -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#searchCollapse" aria-expanded="false" aria-controls="searchCollapse">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <!-- ============  LOGIN TOGGLER =============== -->
+                <button class="navbar-toggler" data-toggle="collapse" href="#loginCollapse" type="button" aria-expanded="false" aria-controls="loginCollapse">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
+
+            <!-- ============  COLLAPSE =============== -->
+            <div class="collapse multi-collapse navbar-collapse" id="loginCollapse">
+                <form class="form-inline my-2" id="login">
+                    <label class="sr-only" for="input-email">Enter Email</label>
+                    <div class="input-group ml-auto mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-at"></i>
+                            </div>
                         </div>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0 ml-auto d-none" id="navbarSearch">
-                    <input id="query"class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button id="search-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <input type="text" class="form-control" id="input-email" placeholder="Enter Email" aria-describedby="emailHelp">
+                    </div>
+
+                    <label class="sr-only" for="input-password">Password</label>
+                    <div class="input-group mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-unlock-alt"></i>
+                            </div>
+                        </div>
+                        <input type="password" class="form-control mr-sm-2" id="input-password" placeholder="Password">
+                    </div>
+
+                    <button id="login-submit" class="btn btn-outline-primary" type="submit">Submit</button>
                 </form>
 
+                <!-- ./COLLAPSE -->
+            </div>
+
+
+            <!-- ============  COLLAPSE =============== -->
+            <div class="collapse multi-collapse navbar-collapse" id="searchCollapse">
+                <form class="form-inline my-2 ml-auto" id="navbarSearch">
+                    <input id="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <!-- ./COLLAPSE -->
             </div>
         </div>
     </nav>
@@ -88,7 +130,7 @@
                             <input type="text" class="form-control" id="input-search" placeholder="Enter your search here">
                         </div>
 
-                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        <button type="submit" id="wSearch-btn" class="btn btn-primary mb-2">Submit</button>
                     </form>
                 </div>
             </section>
@@ -100,21 +142,20 @@
             <div class="bg-light p-5 mb-4 mt-3 w-100 h-100 rounded">
 
                 <!-- =============  BIO  ============ -->
-                <div class="row mb-4">
+                <div class="row align-items-center mb-4">
                     <div class="col-md-4 text-center">
                         <img src="http://placehold.it/300x300" class="img-fluid img-thumbnail" id="bio-img" alt="img text">
                     </div>
                     <div class="col-md-8 text-center">
-                        <div class="card text-left">
+                        <div class="card set-height text-left">
                             <div class="card-body" id="bio-text">
                                 <h5 class="card-title" id="bio-title">This is the Title</h5>
+                                <h6 class="card-subtitle text-muted" id="bio-subtitle">Card subtitle</h6>
+                                <small class="text-muted mb-2" id="bio-small">Small text</small>
+
                                 <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi perspiciatis deserunt pariatur
                                     dicta ipsum. Odit, nihil a cumque explicabo sunt laudantium officiis esse perspiciatis
                                     numquam, accusantium, maxime distinctio accusamus est!</p>
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi perspiciatis deserunt pariatur
-                                    dicta ipsum. Odit, nihil a cumque explicabo sunt laudantium officiis esse perspiciatis
-                                    numquam, accusantium, maxime distinctio accusamus est!</p>
-
                             </div>
                         </div>
                     </div>
@@ -123,35 +164,20 @@
                 <!-- =====================  FILMOGRAPHY ======================== -->
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" id="filmTab-title">FILMOGRAPHY</a>
+                        <a class="nav-link active" id="filmTab-title">RELATED FILMS</a>
                     </li>
                 </ul>
-                <div class="row no-gutters justify-content-between bg-dark p-2 mb-4" id="film-content">
-                    <div class="col-1 text-center">
+                <div class="scrolling-wrapper-flexbox bg-dark p-3 mb-4" id="film-content">
+                    <div class="card m-2">
                         <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
                     </div>
-                    <div class="col-1 text-center">
+                    <div class="card m-2">
                         <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
                     </div>
-                    <div class="col-1 text-center">
+                    <div class="card m-2">
                         <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
                     </div>
-                    <div class="col-1 text-center">
-                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
-                    </div>
-                    <div class="col-1 text-center">
-                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
-                    </div>
-                    <div class="col-1 text-center">
-                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
-                    </div>
-                    <div class="col-1 text-center">
-                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
-                    </div>
-                    <div class="col-1 text-center">
-                        <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
-                    </div>
-                    <div class="col-1 text-center">
+                    <div class="card m-2">
                         <img src="http://placehold.it/75x125" alt="text" class="img-fluid">
                     </div>
 
@@ -165,19 +191,35 @@
                         <a class="nav-link active" id="filmTab-title">VIDEOS</a>
                     </li>
                 </ul>
-                <div class="row no-gutters justify-content-between bg-dark p-2" id="film-content2">
-                    <div class="col-4 text-center">
-                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                <div class="scrolling-wrapper-flexbox bg-dark p-3" id="vid-content">
+
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
                     </div>
-                    <div class="col-4 text-center">
-                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
                     </div>
-                    <div class="col-4 text-center">
-                        <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="card m-2">
+                        <a data-toggle="modal" data-target="#vidModal">
+                            <img src="http://placehold.it/300x200" alt="text" class="img-fluid">
+                        </a>
                     </div>
 
                 </div>
-
 
             </div>
         </div>
@@ -187,17 +229,17 @@
 
             <h6 class="text-light">RECENT SEARCHES</h6>
 
-            <div class="d-flex flex-row rounded p-2 mb-4">
+            <div class="scrolling-wrapper-flexbox bg-light rounded p-2 mb-4" id="recent-content">
 
-                <div class="text-center">
-                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                <!-- <div class="text-center">
+                    <img src="http://placehold.it/100x100" alt="text" id="recentSearches" class="img-fluid rounded-circle m-2">
                 </div>
                 <div class="text-center">
-                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
+                    <img src="http://placehold.it/100x100" alt="text" id="recentSearches" class="img-fluid rounded-circle m-2">
                 </div>
                 <div class="text-center">
-                    <img src="http://placehold.it/100x100" alt="text" class="img-fluid rounded-circle m-2">
-                </div>
+                    <img src="http://placehold.it/100x100" alt="text" id="recentSearches" class="img-fluid rounded-circle m-2">
+                </div> -->
 
             </div>
         </div>
@@ -228,10 +270,12 @@
         crossorigin="anonymous"></script>
 
     <!-- Firebase -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
 
     <!-- Moment.js -->
-    <!-- <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <script src="assets/javascript/md5.js"></script>
 
     <!-- App js  -->
     <script src="assets/javascript/app.js"></script>
