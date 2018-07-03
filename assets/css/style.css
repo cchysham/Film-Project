@@ -145,3 +145,9 @@ body{
     padding-right: 0;
     padding-left: 0;
 }
+
+#title {
+    color: white;
+    top: 8px;
+    width: 250px;
+}

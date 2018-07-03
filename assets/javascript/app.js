@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   var FilmFinder = function () {
 
     var vidContent = $("#vid-content");
@@ -92,8 +91,13 @@ $(document).ready(function () {
       }).then(function (response) {
         console.log(response);
         for (var i = 0; i < limit; i++) {
+<<<<<<< HEAD
           addThumb(response.items[i]);
+=======
+          addThumb(response.items[i].snippet.thumbnails.medium.url, response.items[i].id.videoId, response.items[i].snippet.title);
+>>>>>>> 2af99c1975b86159b91ccdf51256a12bc22bf699
         }
+        
       });
     }
 
@@ -101,6 +105,7 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
+<<<<<<< HEAD
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
@@ -168,11 +173,26 @@ $(document).ready(function () {
       div.addClass("img-fluid rounded-circle m-2");
       div.on("click", relFilmSearch);
       $("#recent-content").prepend(div);
+=======
+    function addThumb(thumbID, vidID, title) {
+      var div = $("<div>").addClass("col-4 text-center");
+      div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ vidID +`">
+          <img src="`+ thumbID + `"alt="text" class="img-fluid" id="thumb"></a>`);
+      div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + title + `</div>`);
+      vidContent.append(div);
+
+      div.find("a").on("click", function(){
+       var vidID = $(this).attr("thumbid");
+        $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      });
+>>>>>>> 2af99c1975b86159b91ccdf51256a12bc22bf699
     }
+
 
     function clearPage() {
       filmContent.empty();
       vidContent.empty();
+      $("#modal-body").empty();
     }
 
     function welcomeView() {
