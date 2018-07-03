@@ -56,8 +56,12 @@ body{
     width: calc(100% - 86px);
 }
 
-#prev-search .d-flex{
-    background-color:rgba(255,255,255,.15);
+.set-height{
+    min-height:250px;
+}
+
+.bg-light{
+    background-color:rgba(255,255,255,.35)!important;
 }
 
 .scrolling-wrapper-flexbox {
