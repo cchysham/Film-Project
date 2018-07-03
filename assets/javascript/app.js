@@ -23,23 +23,25 @@ $(document).ready(function () {
 
     function welSearch(e) {
       e.preventDefault();
-      searchBtnPress($("#input-search").val());
+      searchBtnPress($("#input-search").val().trim());
       $("#input-search").val('');
     }
 
     function navSearch(e) {
       e.preventDefault();
-      searchBtnPress($("#query").val());
+      searchBtnPress($("#query").val().trim());
       $("#query").val('');
     }
 
     function relFilmSearch(e) {
       e.preventDefault();
+      $(this).remove();
       searchBtnPress($(this).attr("title"));
     }
 
     function searchBtnPress(q) {
       clearPage();
+      rmvDuplicateSearches(q);
       searchOMDB(q);
       searchYT(q, 11);
       //
@@ -47,7 +49,7 @@ $(document).ready(function () {
       pageView();
     }
 
-    
+
     function searchOMDB(movie) {
       var url = "https://api.themoviedb.org/3/search/movie";
       var obj = {
@@ -61,7 +63,7 @@ $(document).ready(function () {
         method: "GET"
       }).then(function (response) {
         // console.log(response);
-        addMovieInfo(response.results[0]);
+        addMovieInfo(response.results[0], movie);
 
         //
         for (var i = 1; i < response.results.length; i++) {
@@ -91,13 +93,8 @@ $(document).ready(function () {
       }).then(function (response) {
         console.log(response);
         for (var i = 0; i < limit; i++) {
-<<<<<<< HEAD
           addThumb(response.items[i]);
-=======
-          addThumb(response.items[i].snippet.thumbnails.medium.url, response.items[i].id.videoId, response.items[i].snippet.title);
->>>>>>> 2af99c1975b86159b91ccdf51256a12bc22bf699
         }
-        
       });
     }
 
@@ -105,7 +102,6 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
-<<<<<<< HEAD
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
@@ -118,7 +114,7 @@ $(document).ready(function () {
       });
       //
       search_arr[0].img = obj.poster_path;
-      addRecentSearch();
+      addRecentSearch(search_arr[0]);
     }
 
     function addRelatedFilmTB(obj) {
@@ -163,29 +159,30 @@ $(document).ready(function () {
       $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
-    function addRecentSearch() {
+    function addRecentSearch(obj) {
       makeVis("prev-search", true);
-      var div = $("<div>").attr({ "title": search_arr[0].text, "id": "recentTB" });
+      var div = $("<div>").attr({ "title": obj.text, "id": "recentTB" });
       div.css({
-        "background": `url("https://image.tmdb.org/t/p/w1280/` + search_arr[0].img + `") no-repeat top center`,
+        "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.img + `") no-repeat top center`,
         "background-size": "100%"
       });
       div.addClass("img-fluid rounded-circle m-2");
       div.on("click", relFilmSearch);
       $("#recent-content").prepend(div);
-=======
-    function addThumb(thumbID, vidID, title) {
-      var div = $("<div>").addClass("col-4 text-center");
-      div.append(`<a data-toggle="modal" data-target="#vidModal" thumbid="`+ vidID +`">
-          <img src="`+ thumbID + `"alt="text" class="img-fluid" id="thumb"></a>`);
-      div.append(`<div class="justify-content-between position-absolute m-0" id="title">` + title + `</div>`);
-      vidContent.append(div);
+    }
 
-      div.find("a").on("click", function(){
-       var vidID = $(this).attr("thumbid");
-        $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+    function rmvDuplicateSearches(str) {
+      //$('.control').find("div").slice(1, 4).remove();
+      var temp_arr = [];
+      $.each(search_arr, function (i, val) {
+        if (val.text == str) {
+          console.log("MATCH");
+        } else {
+          temp_arr.push(val);
+        }
       });
->>>>>>> 2af99c1975b86159b91ccdf51256a12bc22bf699
+      search_arr = temp_arr;
+      console.log(search_arr);
     }
 
 
