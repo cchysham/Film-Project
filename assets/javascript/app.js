@@ -179,7 +179,9 @@ $(document).ready(function () {
         $("#" + id).addClass("d-none");
     }
 
-    /////////FiREBASE /////////////////
+    /*======================================== */
+    /*===============  FiREBASE  ================= */
+    /*======================================== */
 
     var config = {
       apiKey: "AIzaSyAjLL5b07IVCDO-ZAXzNbEZR9gsaxZ_2fA",
@@ -201,6 +203,12 @@ $(document).ready(function () {
         var errorCode = error.code;
         var errorMessage = error.message;
 
+      });
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
       });
     });
 
