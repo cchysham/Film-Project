@@ -64,16 +64,16 @@ $(document).ready(function () {
       });
     };
 
-    function userLogOut(e){
+    function userLogOut(e) {
       e.preventDefault();
       $("#loginCollapse").collapse('toggle');
-      firebase.auth().signOut().then(function() {
-        makeVis("login",true);
-        makeVis("logout-submit",false);
+      firebase.auth().signOut().then(function () {
+        makeVis("login", true);
+        makeVis("logout-submit", false);
         search_arr = [];
         $("#recent-content").empty();
         makeVis("prev-search", false);
-      }).catch(function(error) {
+      }).catch(function (error) {
         // An error happened.
       });
     }
@@ -93,7 +93,7 @@ $(document).ready(function () {
         //
         search_arr = (user.displayName === undefined) ? [] : JSON.parse(user.displayName);
         // search_arr = (user.savedSearches == undefined) ? [] : user.savedSearches;
-        $.each(search_arr,function(i,val){
+        $.each(search_arr, function (i, val) {
           addRecentSearch(val);
         });
         //
@@ -103,8 +103,8 @@ $(document).ready(function () {
         console.log(email, search_arr, grav_key, user.displayName);
 
         //
-        makeVis("login",false);
-        makeVis("logout-submit",true);
+        makeVis("login", false);
+        makeVis("logout-submit", true);
 
       } else {
         console.log("user is not signed in");
@@ -115,14 +115,15 @@ $(document).ready(function () {
     function updateUser() {
       //
       var user = firebase.auth().currentUser;
-      user.updateProfile({
-        displayName: JSON.stringify(search_arr)
-      }).then(function () {
-        // Update successful.
-      }).catch(function (error) {
-        // An error happened.
-      });
-
+      if (user !== null) {
+        user.updateProfile({
+          displayName: JSON.stringify(search_arr)
+        }).then(function () {
+          // Update successful.
+        }).catch(function (error) {
+          // An error happened.
+        });
+      }
     }
 
 
@@ -137,6 +138,7 @@ $(document).ready(function () {
     function welSearch(e) {
       e.preventDefault();
       searchBtnPress($("#input-search").val().trim());
+      $("#input-search").val('');
       $("#input-search").val('');
     }
 
@@ -160,7 +162,6 @@ $(document).ready(function () {
       searchYT(q, 11);
       //
       search_arr.unshift({ text: q, img: undefined });
-      pageView();
     }
 
 
@@ -176,18 +177,27 @@ $(document).ready(function () {
         url: url,
         method: "GET"
       }).then(function (response) {
-        // console.log(response);
-        addMovieInfo(response.results[0], movie);
+        console.log(response.results.length);
+        if (response.results.length === 0) {
+          console.log("ZERO RESULTS");
+          zeroResultsView();
+        } else {
+          pageView();
+          //
+          addMovieInfo(response.results[0], movie);
 
-        //
-        for (var i = 1; i < response.results.length; i++) {
-          // console.log(response.results[i])
-          addRelatedFilmTB(response.results[i]);
+
+          //
+          for (var i = 1; i < response.results.length; i++) {
+            console.log(response.results[i])
+            addRelatedFilmTB(response.results[i]);
+          }
+          //
+          var val = ($("#film-content > div").length > 0);
+          makeVis("film-content", val);
+          makeVis("filmTab-title", val);
         }
-        //
-        var val = ($("#film-content > div").length > 0);
-        makeVis("film-content", val);
-        makeVis("filmTab-title", val);
+
       });
 
     }
@@ -222,13 +232,19 @@ $(document).ready(function () {
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
       //
+      // if (obj.backdrop_path !== undefined) {
+      console.log("BACKDROP");
       $("#content").css({
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
       });
+      //}
       //
+      console.log("POSTER");
       search_arr[0].img = obj.poster_path;
+      console.log("UPDATE USER");
       updateUser();
       addRecentSearch(search_arr[0]);
+      console.log("make prev search vis");
       makeVis("prev-search", true);
     }
 
@@ -243,6 +259,7 @@ $(document).ready(function () {
     }
 
     function addThumb(obj) {
+      if(obj === undefined) return;
       var title = obj.snippet.title;
       var div = $("<div>").addClass("card position-relative vidTB m-2");
       var a = $("<a>").attr({
@@ -271,10 +288,11 @@ $(document).ready(function () {
       var title = $(this).attr("title");
       console.log(vidID);
       $(".modal-title").text(title);
-      $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      $(".modal-body").html(`<iframe width="100%" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
     function addRecentSearch(obj) {
+      console.log("add recent search");
       var div = $("<div>").attr({ "title": obj.text, "id": "recentTB" });
       div.css({
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.img + `") no-repeat top center`,
@@ -317,6 +335,7 @@ $(document).ready(function () {
     }
 
     function pageView() {
+      console.log("PAGE VIEW");
       // 
       makeVis("welcome-search", false);
       $("#content").removeClass("fixed-height");
@@ -324,6 +343,21 @@ $(document).ready(function () {
       //
       makeVis("navbarSearch", true);
       makeVis("page-content", true);
+      makeVis("zeroResults", false);
+
+    }
+
+    function zeroResultsView() {
+      makeVis("welcome-search", false);
+      $("#content").addClass("fixed-height");
+      $("footer").addClass("fixed-bottom");
+      makeVis("page-content", false);
+      makeVis("zeroResults", true);
+      makeVis("prev-search", false);
+      $("#searchCollapse").collapse('toggle');
+      $("#content").css({
+        "background": `none`
+      });
     }
 
 
