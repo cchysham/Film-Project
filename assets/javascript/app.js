@@ -41,11 +41,16 @@ $(document).ready(function () {
 
     //
     $("#login-submit").on("click", userLogin);
+    $("#logout-submit").on("click", userLogOut);
 
     function userLogin(e) {
       e.preventDefault();
       var email = $("#input-email").val().trim();
       var password = $("#input-password").val().trim();
+      $("#input-email").val('');
+      $("#input-password").val('');
+      //
+      $("#loginCollapse").collapse('toggle');
       //
       firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
 
@@ -59,6 +64,23 @@ $(document).ready(function () {
       });
     };
 
+    function userLogOut(e) {
+      e.preventDefault();
+      $("#loginCollapse").collapse('toggle');
+      //
+      firebase.auth().signOut().then(function () {
+        makeVis("login", true);
+        makeVis("logout-submit", false);
+        //
+        setUserIcon(false);
+        search_arr = [];
+        $("#recent-content").empty();
+        makeVis("prev-search", false);
+      }).catch(function (error) {
+        // An error happened.
+      });
+    }
+
     function createUser(email, password) {
       firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
 
@@ -71,17 +93,22 @@ $(document).ready(function () {
       if (user) {
         console.log("user is signed in");
         email = user.email;
-        // user.displayName = 
+        //
         search_arr = (user.displayName === undefined) ? [] : JSON.parse(user.displayName);
         // search_arr = (user.savedSearches == undefined) ? [] : user.savedSearches;
-        $.each(search_arr,function(i,val){
+        $.each(search_arr, function (i, val) {
           addRecentSearch(val);
         });
-        //user.savedSearches = search_arr;
+        //
         grav_key = $.md5(email);
+        setUserIcon(true);
         uid = user.uid;
-        // user.child("savedSearches").setValue("I just set this");
+        // 
         console.log(email, search_arr, grav_key, user.displayName);
+
+        //
+        makeVis("login", false);
+        makeVis("logout-submit", true);
 
       } else {
         console.log("user is not signed in");
@@ -89,23 +116,18 @@ $(document).ready(function () {
     });
 
 
-
     function updateUser() {
-      // var obj = {};
-      // obj[uid] = {
-      //   savedSearches: search_arr,
-      //   userEmail: email
-      // }
-      // database.ref("/searches").set(obj);
+      //
       var user = firebase.auth().currentUser;
-      user.updateProfile({
-        displayName: JSON.stringify(search_arr)
-      }).then(function () {
-        // Update successful.
-      }).catch(function (error) {
-        // An error happened.
-      });
-
+      if (user !== null) {
+        user.updateProfile({
+          displayName: JSON.stringify(search_arr)
+        }).then(function () {
+          // Update successful.
+        }).catch(function (error) {
+          // An error happened.
+        });
+      }
     }
 
 
@@ -121,12 +143,14 @@ $(document).ready(function () {
       e.preventDefault();
       searchBtnPress($("#input-search").val().trim());
       $("#input-search").val('');
+      $("#input-search").val('');
     }
 
     function navSearch(e) {
       e.preventDefault();
       searchBtnPress($("#query").val().trim());
       $("#query").val('');
+      $("#searchCollapse").collapse('toggle');
     }
 
     function relFilmSearch(e) {
@@ -142,7 +166,6 @@ $(document).ready(function () {
       searchYT(q, 11);
       //
       search_arr.unshift({ text: q, img: undefined });
-      pageView();
     }
 
 
@@ -158,18 +181,27 @@ $(document).ready(function () {
         url: url,
         method: "GET"
       }).then(function (response) {
-        // console.log(response);
-        addMovieInfo(response.results[0], movie);
+        console.log(response.results.length);
+        if (response.results.length === 0) {
+          console.log("ZERO RESULTS");
+          zeroResultsView();
+        } else {
+          pageView();
+          //
+          addMovieInfo(response.results[0], movie);
 
-        //
-        for (var i = 1; i < response.results.length; i++) {
-          // console.log(response.results[i])
-          addRelatedFilmTB(response.results[i]);
+
+          //
+          for (var i = 1; i < response.results.length; i++) {
+            console.log(response.results[i])
+            addRelatedFilmTB(response.results[i]);
+          }
+          //
+          var val = ($("#film-content > div").length > 0);
+          makeVis("film-content", val);
+          makeVis("filmTab-title", val);
         }
-        //
-        var val = ($("#film-content > div").length > 0);
-        makeVis("film-content", val);
-        makeVis("filmTab-title", val);
+
       });
 
     }
@@ -197,6 +229,14 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
+    function setUserIcon(val) {
+      if (val) {
+        $("#login-icon").html(`<img src="https://www.gravatar.com/avatar/` + grav_key + `?s=40" class="rounded-circle">`);
+      } else {
+        $("#login-icon").html(`<i class="fas fa-user-circle"></i>`);
+      }
+    }
+
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
@@ -204,13 +244,16 @@ $(document).ready(function () {
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
       //
-      $("#content").css({
-        "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
-      });
+      if (obj.backdrop_path !== undefined) {
+        $("#content").css({
+          "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
+        });
+      }
       //
       search_arr[0].img = obj.poster_path;
       updateUser();
       addRecentSearch(search_arr[0]);
+      makeVis("prev-search", true);
     }
 
     function addRelatedFilmTB(obj) {
@@ -224,6 +267,7 @@ $(document).ready(function () {
     }
 
     function addThumb(obj) {
+      if (obj === undefined) return;
       var title = obj.snippet.title;
       var div = $("<div>").addClass("card position-relative vidTB m-2");
       var a = $("<a>").attr({
@@ -252,11 +296,11 @@ $(document).ready(function () {
       var title = $(this).attr("title");
       console.log(vidID);
       $(".modal-title").text(title);
-      $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      $(".modal-body").html(`<iframe width="100%" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
     function addRecentSearch(obj) {
-      makeVis("prev-search", true);
+      console.log("add recent search");
       var div = $("<div>").attr({ "title": obj.text, "id": "recentTB" });
       div.css({
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.img + `") no-repeat top center`,
@@ -299,6 +343,7 @@ $(document).ready(function () {
     }
 
     function pageView() {
+      console.log("PAGE VIEW");
       // 
       makeVis("welcome-search", false);
       $("#content").removeClass("fixed-height");
@@ -306,6 +351,21 @@ $(document).ready(function () {
       //
       makeVis("navbarSearch", true);
       makeVis("page-content", true);
+      makeVis("zeroResults", false);
+
+    }
+
+    function zeroResultsView() {
+      makeVis("welcome-search", false);
+      $("#content").addClass("fixed-height");
+      $("footer").addClass("fixed-bottom");
+      makeVis("page-content", false);
+      makeVis("zeroResults", true);
+      makeVis("prev-search", false);
+      $("#searchCollapse").collapse('toggle');
+      $("#content").css({
+        "background": `none`
+      });
     }
 
 
@@ -317,50 +377,9 @@ $(document).ready(function () {
         $("#" + id).addClass("d-none");
     }
 
-
-
-
-
-
-
-
-
-
-
-    /*function userSetup() {
-      var user = $("#input-email").val().trim();
-      console.log(user);
-      var users = database.ref("/users").push();
-        users.set({
-          userName: user,
-        });
-
-      database.ref("/users").once("value", function(s){
-        $.each(s.val(), function(key, val){
-           var recentUser = val.userName;
-           if(recentUser === user){
-              console.log(recentUser);
-              return false;
-           }
-        });
-      });*/
-
-
-    // var userRef = database.ref("/users");
-
-    // using local storage - store email to local storage and firebase. store search data to firebase. 
-    //when user loads page, retrieve search data by matching email from local storage to firebase
-
-
-
-
-
-
-
-
-
-
-
+    //
+    //
+    // end
 
   };
 
