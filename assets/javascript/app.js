@@ -7,8 +7,9 @@ $(document).ready(function () {
 
     var vidContent = $("#vid-content");
     var filmContent = $("#film-content");
+  
 
-    var search_arr = [];
+    var search_arr = "";
 
     this.start = init;
     this.welView = welcomeView;
@@ -35,20 +36,16 @@ $(document).ready(function () {
 
     //
     $("#login-submit").on("click", userLogin);
-    $("#logout-submit").on("click", userLogOut);
 
     function userLogin(e) {
       e.preventDefault();
       var email = $("#input-email").val().trim();
       var password = $("#input-password").val().trim();
-      $("#input-email").val('');
-      $("#input-password").val('');
-      //
-      $("#loginCollapse").collapse('toggle');
       //
       firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
 
         console.log("signin", error.code, error.message);
+
 
         if (error.code == "auth/user-not-found") {
           console.log("send to create user", email, password);
@@ -88,30 +85,33 @@ $(document).ready(function () {
       if (user) {
         console.log("user is signed in");
         email = user.email;
-        //
+        // user.displayName = 
         search_arr = (user.displayName === undefined) ? [] : JSON.parse(user.displayName);
         // search_arr = (user.savedSearches == undefined) ? [] : user.savedSearches;
-        $.each(search_arr, function (i, val) {
+        $.each(search_arr,function(i,val){
           addRecentSearch(val);
         });
-        //
+        //user.savedSearches = search_arr;
         grav_key = $.md5(email);
         setUserIcon(true);
         // 
         console.log(email, search_arr, grav_key, user.displayName);
 
-        //
-        makeVis("login", false);
-        makeVis("logout-submit", true);
-
       } else {
         console.log("user is not signed in");
+        makeVis("prev-search", false);
       }
     });
 
 
+
     function updateUser() {
-      //
+      // var obj = {};
+      // obj[uid] = {
+      //   savedSearches: search_arr,
+      //   userEmail: email
+      // }
+      // database.ref("/searches").set(obj);
       var user = firebase.auth().currentUser;
       if (user !== null) {
         user.updateProfile({
@@ -138,14 +138,12 @@ $(document).ready(function () {
       e.preventDefault();
       searchBtnPress($("#input-search").val().trim());
       $("#input-search").val('');
-      $("#input-search").val('');
     }
 
     function navSearch(e) {
       e.preventDefault();
       searchBtnPress($("#query").val().trim());
       $("#query").val('');
-      $("#searchCollapse").collapse('toggle');
     }
 
     function relFilmSearch(e) {
@@ -160,7 +158,8 @@ $(document).ready(function () {
       searchOMDB(q);
       searchYT(q, 11);
       //
-      search_arr.unshift({ text: q, img: undefined });
+      
+      pageView();
     }
 
 
@@ -196,6 +195,20 @@ $(document).ready(function () {
           makeVis("filmTab-title", val);
         }
 
+        database.ref("/searches").push({
+          image: response.results[0].poster_path,
+          title: resopnse.results[0].original_title,
+        });
+
+        //
+        for (var i = 1; i < response.results.length; i++) {
+          // console.log(response.results[i])
+          addRelatedFilmTB(response.results[i]);
+        }
+        //
+        var val = ($("#film-content > div").length > 0);
+        makeVis("film-content", val);
+        makeVis("filmTab-title", val);
       });
 
     }
@@ -223,14 +236,6 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
-    function setUserIcon(val) {
-      if (val) {
-        $("#login-icon").html(`<img src="https://www.gravatar.com/avatar/` + grav_key + `?s=40" class="rounded-circle">`);
-      } else {
-        $("#login-icon").html(`<i class="fas fa-user-circle"></i>`);
-      }
-    }
-
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
@@ -238,16 +243,13 @@ $(document).ready(function () {
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
       //
-      if (obj.backdrop_path !== undefined) {
-        $("#content").css({
-          "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
-        });
-      }
+      $("#content").css({
+        "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
+      });
       //
       search_arr[0].img = obj.poster_path;
       updateUser();
       addRecentSearch(search_arr[0]);
-      makeVis("prev-search", true);
     }
 
     function addRelatedFilmTB(obj) {
@@ -261,7 +263,6 @@ $(document).ready(function () {
     }
 
     function addThumb(obj) {
-      if (obj === undefined) return;
       var title = obj.snippet.title;
       var div = $("<div>").addClass("card position-relative vidTB m-2");
       var a = $("<a>").attr({
@@ -282,6 +283,7 @@ $(document).ready(function () {
 
       vidContent.append(div);
       a.on("click", modalVid);
+     // $(".tbTitle").on("click", modalVid);
     }
 
     function modalVid(e) {
@@ -290,8 +292,12 @@ $(document).ready(function () {
       var title = $(this).attr("title");
       //
       $(".modal-title").text(title);
-      $(".modal-body").html(`<iframe width="100%" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
+      $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
+
+    $("#vidModal").on("hide.bs.modal", function(e){
+      $(".modal-body").empty();
+    });
 
     function addRecentSearch(obj) {
       var div = $("<div>").attr({ "title": obj.text, "id": "recentTB" });
@@ -341,21 +347,6 @@ $(document).ready(function () {
       //
       makeVis("navbarSearch", true);
       makeVis("page-content", true);
-      makeVis("zeroResults", false);
-
-    }
-
-    function zeroResultsView() {
-      makeVis("welcome-search", false);
-      $("#content").addClass("fixed-height");
-      $("footer").addClass("fixed-bottom");
-      makeVis("page-content", false);
-      makeVis("zeroResults", true);
-      makeVis("prev-search", false);
-      $("#searchCollapse").collapse('toggle');
-      $("#content").css({
-        "background": `none`
-      });
     }
 
 
@@ -367,9 +358,11 @@ $(document).ready(function () {
         $("#" + id).addClass("d-none");
     }
 
-    //
-    //
-    // end
+
+    database.ref("/searches").on("child_added", function(s) {
+      console.log(s.val());
+      addRecentSearch();
+    });
 
   };
 
