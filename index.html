@@ -68,7 +68,7 @@
             </div>
 
             <!-- ============  COLLAPSE =============== -->
-            <div class="collapse multi-collapse navbar-collapse" id="loginCollapse">
+            <div class="collapse multi-collapse navbar-collapse text-right" id="loginCollapse">
                 <form class="form-inline my-2" id="login">
                     <label class="sr-only" for="input-email">Enter Email</label>
                     <div class="input-group ml-auto mr-sm-2">
@@ -90,8 +90,10 @@
                         <input type="password" class="form-control mr-sm-2" id="input-password" placeholder="Password">
                     </div>
 
-                    <button id="login-submit" class="btn btn-outline-primary" type="submit">Submit</button>
+                    <button id="login-submit" class="btn btn-outline-primary" type="submit">Log In</button>
                 </form>
+
+                <button id="logout-submit" class="btn btn-outline-primary d-none" type="submit">Log Out</button>
 
                 <!-- ./COLLAPSE -->
             </div>
@@ -250,8 +252,8 @@
 
 
     <footer class="footer bg-dark fixed-bottom">
-        <div class="container">
-            <span class="text-muted">Place sticky footer content here.</span>
+        <div class="container text-center">
+            <small class="text-muted"><i class="far fa-copyright"></i> 2018 Film Finder</small>
         </div>
     </footer>
 
