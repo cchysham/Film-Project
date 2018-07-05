@@ -2,10 +2,8 @@ $(document).ready(function () {
 
   var FilmFinder = function () {
 
-    var user;
     var email;
     var grav_key;
-    var uid;
 
     var vidContent = $("#vid-content");
     var filmContent = $("#film-content");
@@ -19,9 +17,6 @@ $(document).ready(function () {
 
     function init() {
       console.log("ready");
-      grav_key = $.md5("cutesd@hotmail.com");
-      console.log(grav_key);
-      // $("body").append(`<img src="https://www.gravatar.com/avatar/`+grav_key+`?s=200">`);
     }
 
     /*======================================== */
@@ -37,7 +32,6 @@ $(document).ready(function () {
       messagingSenderId: "272003219933"
     };
     firebase.initializeApp(config);
-    var database = firebase.database();
 
     //
     $("#login-submit").on("click", userLogin);
@@ -78,6 +72,7 @@ $(document).ready(function () {
         makeVis("prev-search", false);
       }).catch(function (error) {
         // An error happened.
+        console.log(error);
       });
     }
 
@@ -102,7 +97,6 @@ $(document).ready(function () {
         //
         grav_key = $.md5(email);
         setUserIcon(true);
-        uid = user.uid;
         // 
         console.log(email, search_arr, grav_key, user.displayName);
 
@@ -126,6 +120,7 @@ $(document).ready(function () {
           // Update successful.
         }).catch(function (error) {
           // An error happened.
+          console.log(error);
         });
       }
     }
@@ -189,7 +184,6 @@ $(document).ready(function () {
           pageView();
           //
           addMovieInfo(response.results[0], movie);
-
 
           //
           for (var i = 1; i < response.results.length; i++) {
@@ -294,13 +288,12 @@ $(document).ready(function () {
       e.preventDefault();
       var vidID = $(this).attr("data-vidID");
       var title = $(this).attr("title");
-      console.log(vidID);
+      //
       $(".modal-title").text(title);
       $(".modal-body").html(`<iframe width="100%" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
     function addRecentSearch(obj) {
-      console.log("add recent search");
       var div = $("<div>").attr({ "title": obj.text, "id": "recentTB" });
       div.css({
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.img + `") no-repeat top center`,
@@ -312,14 +305,12 @@ $(document).ready(function () {
     }
 
     function rmvDuplicateSearches(str) {
-      //$('.control').find("div").slice(1, 4).remove();
+      //
       var temp_arr = [];
       $.each(search_arr, function (i, val) {
-        if (val.text == str) {
-          // console.log("MATCH");
-        } else {
+        if (val.text !== str) {
           temp_arr.push(val);
-        }
+        } 
       });
       search_arr = temp_arr;
       // console.log(search_arr);
@@ -343,7 +334,6 @@ $(document).ready(function () {
     }
 
     function pageView() {
-      console.log("PAGE VIEW");
       // 
       makeVis("welcome-search", false);
       $("#content").removeClass("fixed-height");
