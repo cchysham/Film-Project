@@ -252,7 +252,7 @@ $(document).ready(function () {
 
       vidContent.append(div);
       a.on("click", modalVid);
-      $(".tbTitle").on("click", modalVid);
+     // $(".tbTitle").on("click", modalVid);
     }
 
     function modalVid(e) {
