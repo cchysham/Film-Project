@@ -85,6 +85,10 @@ body{
     cursor: pointer;
 }
 
+.filmTB{
+    background-color:none;
+}
+
 .filmTB img{
     max-height:175px;
     transition: .5s ease;
@@ -118,6 +122,7 @@ body{
     transition: .5s ease;
     opacity:0;
     min-width: 100px;
+    white-space: normal;
 }
 
 /* ===========  RECENT SEARCHES  =================*/
@@ -129,6 +134,7 @@ body{
     width:150px;
     height:150px;
     cursor: pointer;
+    box-shadow: 0 0 10px #333;
 }
 
 .clip-circle{
@@ -147,8 +153,3 @@ body{
     padding-left: 0;
 }
 
-/*#title {
-    color: white;
-    top: 8px;
-    width: 250px;
-}*/

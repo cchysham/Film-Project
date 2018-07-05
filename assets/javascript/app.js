@@ -192,8 +192,9 @@ $(document).ready(function () {
           }
           //
           var val = ($("#film-content > div").length > 0);
-          makeVis("film-content", val);
+          makeVis("filmContentWrapper", val);
           makeVis("filmTab-title", val);
+          doSomething(0);
         }
 
       });
@@ -256,7 +257,7 @@ $(document).ready(function () {
 
     function addRelatedFilmTB(obj) {
       if (obj.poster_path == null) return;
-      var div = $("<div>").addClass("card m-1 filmTB");
+      var div = $("<div>").addClass("card m-1 filmTB pn-ProductNav_Link");
       div.attr("title", obj.original_title);
       div.append(`<img src="https://image.tmdb.org/t/p/w1280/` + obj.poster_path + `" alt="` + obj.original_title + `">`);
       div.append(`<p class="tbTitle">` + obj.original_title + `</p>`);
@@ -267,7 +268,7 @@ $(document).ready(function () {
     function addThumb(obj) {
       if (obj === undefined) return;
       var title = obj.snippet.title;
-      var div = $("<div>").addClass("card position-relative vidTB m-2");
+      var div = $("<div>").addClass("card position-relative vidTB pn-ProductNav_Link m-2");
       var a = $("<a>").attr({
         "data-toggle": "modal",
         "data-target": "#vidModal",
