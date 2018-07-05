@@ -223,6 +223,10 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
+    $("#vidModal").on("hide.bs.modal", function(e){
+      $(".modal-body").empty();
+    });
+
     function setUserIcon(val) {
       if (val) {
         $("#login-icon").html(`<img src="https://www.gravatar.com/avatar/` + grav_key + `?s=40" class="rounded-circle">`);
