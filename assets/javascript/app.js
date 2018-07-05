@@ -2,8 +2,14 @@ $(document).ready(function () {
 
   var FilmFinder = function () {
 
+    var user;
+    var email;
+    var grav_key;
+    var uid;
+
     var vidContent = $("#vid-content");
     var filmContent = $("#film-content");
+  
 
     var search_arr = "";
 
@@ -14,7 +20,97 @@ $(document).ready(function () {
 
     function init() {
       console.log("ready");
+      grav_key = $.md5("cutesd@hotmail.com");
+      console.log(grav_key);
+      // $("body").append(`<img src="https://www.gravatar.com/avatar/`+grav_key+`?s=200">`);
     }
+
+    /*======================================== */
+    /*===============  FiREBASE  ================= */
+    /*======================================== */
+
+    var config = {
+      apiKey: "AIzaSyBnggAKB5THl-nfZxmnAO5QR4g5eHRvpI8",
+      authDomain: "filmfinder-d741e.firebaseapp.com",
+      databaseURL: "https://filmfinder-d741e.firebaseio.com",
+      projectId: "filmfinder-d741e",
+      storageBucket: "filmfinder-d741e.appspot.com",
+      messagingSenderId: "272003219933"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
+    //
+    $("#login-submit").on("click", userLogin);
+
+    function userLogin(e) {
+      e.preventDefault();
+      var email = $("#input-email").val().trim();
+      var password = $("#input-password").val().trim();
+      //
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+
+        console.log("signin", error.code, error.message);
+
+
+        if (error.code == "auth/user-not-found") {
+          console.log("send to create user", email, password);
+          createUser(email, password);
+        }
+
+      });
+    };
+
+    function createUser(email, password) {
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+
+        console.log("create user", error.code, error.message);
+
+      });
+    }
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        console.log("user is signed in");
+        email = user.email;
+        // user.displayName = 
+        search_arr = (user.displayName === undefined) ? [] : JSON.parse(user.displayName);
+        // search_arr = (user.savedSearches == undefined) ? [] : user.savedSearches;
+        $.each(search_arr,function(i,val){
+          addRecentSearch(val);
+        });
+        //user.savedSearches = search_arr;
+        grav_key = $.md5(email);
+        uid = user.uid;
+        // user.child("savedSearches").setValue("I just set this");
+        console.log(email, search_arr, grav_key, user.displayName);
+
+      } else {
+        console.log("user is not signed in");
+        makeVis("prev-search", false);
+      }
+    });
+
+
+
+    function updateUser() {
+      // var obj = {};
+      // obj[uid] = {
+      //   savedSearches: search_arr,
+      //   userEmail: email
+      // }
+      // database.ref("/searches").set(obj);
+      var user = firebase.auth().currentUser;
+      user.updateProfile({
+        displayName: JSON.stringify(search_arr)
+      }).then(function () {
+        // Update successful.
+      }).catch(function (error) {
+        // An error happened.
+      });
+
+    }
+
 
     /*======================================== */
     /*===============  SEARCH  =============== */
@@ -26,25 +122,25 @@ $(document).ready(function () {
 
     function welSearch(e) {
       e.preventDefault();
-      searchBtnPress($("#input-search").val());
-      saveSearches($("#input-search").val());
+      searchBtnPress($("#input-search").val().trim());
       $("#input-search").val('');
     }
 
     function navSearch(e) {
       e.preventDefault();
-      searchBtnPress($("#query").val());
-      saveSearches($("#query").val());
+      searchBtnPress($("#query").val().trim());
       $("#query").val('');
     }
 
     function relFilmSearch(e) {
       e.preventDefault();
+      $(this).remove();
       searchBtnPress($(this).attr("title"));
     }
 
     function searchBtnPress(q) {
       clearPage();
+      rmvDuplicateSearches(q);
       searchOMDB(q);
       searchYT(q, 11);
       //
@@ -65,8 +161,8 @@ $(document).ready(function () {
         url: url,
         method: "GET"
       }).then(function (response) {
-         console.log(response);
-        addMovieInfo(response.results[0]);
+        // console.log(response);
+        addMovieInfo(response.results[0], movie);
 
         database.ref("/searches").push({
           image: response.results[0].poster_path,
@@ -98,11 +194,10 @@ $(document).ready(function () {
         url: url,
         method: "GET"
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         for (var i = 0; i < limit; i++) {
           addThumb(response.items[i]);
         }
-
       });
     }
 
@@ -121,8 +216,9 @@ $(document).ready(function () {
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
       });
       //
-      search_arr.img = obj.poster_path;
-      addRecentSearch(obj);
+      search_arr[0].img = obj.poster_path;
+      updateUser();
+      addRecentSearch(search_arr[0]);
     }
 
     function addRelatedFilmTB(obj) {
@@ -156,6 +252,7 @@ $(document).ready(function () {
 
       vidContent.append(div);
       a.on("click", modalVid);
+      $(".tbTitle").on("click", modalVid);
     }
 
     function modalVid(e) {
@@ -177,6 +274,20 @@ $(document).ready(function () {
       div.addClass("img-fluid rounded-circle m-2");
       div.on("click", relFilmSearch);
       $("#recent-content").prepend(div);
+    }
+
+    function rmvDuplicateSearches(str) {
+      //$('.control').find("div").slice(1, 4).remove();
+      var temp_arr = [];
+      $.each(search_arr, function (i, val) {
+        if (val.text == str) {
+          // console.log("MATCH");
+        } else {
+          temp_arr.push(val);
+        }
+      });
+      search_arr = temp_arr;
+      // console.log(search_arr);
     }
 
     function clearPage() {
@@ -215,78 +326,11 @@ $(document).ready(function () {
         $("#" + id).addClass("d-none");
     }
 
-    /*======================================== */
-    /*===============  FiREBASE  ================= */
-    /*======================================== */
-
-    var config = {
-      apiKey: "AIzaSyAjLL5b07IVCDO-ZAXzNbEZR9gsaxZ_2fA",
-      authDomain: "june-2018-48693.firebaseapp.com",
-      databaseURL: "https://june-2018-48693.firebaseio.com",
-      projectId: "june-2018-48693",
-      storageBucket: "june-2018-48693.appspot.com",
-      messagingSenderId: "977127869466"
-    };
-    firebase.initializeApp(config);
-    var database = firebase.database();
-
-    $("#login-submit").on("click", function (e) {
-      e.preventDefault();
-      var email = $("#input-email").val().trim();
-      var password = $("#input-password").val().trim();
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-      });
-      firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-      });
-    });
-
-    var user = firebase.auth().currentUser;
-    if (user != null) {
-      email = user.email;
-    }
-
-    function saveSearches(input) {
-      search_arr = "";
-      var user = firebase.auth().currentUser;
-      if (user != null) {
-        email = user.email;
-      }
-
-      if (input.length > 0 || input.length > 0) {
-        search_arr = input;
-      }
-      database.ref("/searches").push({
-        savedSearches: search_arr,
-        userEmail: email,
-      });
-    }
-
-
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        alert("user is signed in");
-       // addRecentSearch();
-      } else {
-        alert("user is not signed in");
-      }
-    });
 
     database.ref("/searches").on("child_added", function(s) {
       console.log(s.val());
       addRecentSearch();
     });
-
-
-    // using local storage - store email to local storage and firebase. store search data to firebase. 
-    //when user loads page, retrieve search data by matching email from local storage to firebase
 
   };
 
