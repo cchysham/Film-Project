@@ -67,9 +67,12 @@ $(document).ready(function () {
     function userLogOut(e) {
       e.preventDefault();
       $("#loginCollapse").collapse('toggle');
+      //
       firebase.auth().signOut().then(function () {
         makeVis("login", true);
         makeVis("logout-submit", false);
+        //
+        setUserIcon(false);
         search_arr = [];
         $("#recent-content").empty();
         makeVis("prev-search", false);
@@ -98,6 +101,7 @@ $(document).ready(function () {
         });
         //
         grav_key = $.md5(email);
+        setUserIcon(true);
         uid = user.uid;
         // 
         console.log(email, search_arr, grav_key, user.displayName);
@@ -225,6 +229,14 @@ $(document).ready(function () {
     /*===============  VIEW  ================= */
     /*======================================== */
 
+    function setUserIcon(val) {
+      if (val) {
+        $("#login-icon").html(`<img src="https://www.gravatar.com/avatar/` + grav_key + `?s=40" class="rounded-circle">`);
+      } else {
+        $("#login-icon").html(`<i class="fas fa-user-circle"></i>`);
+      }
+    }
+
     function addMovieInfo(obj) {
       $("#bio-title").text(obj.original_title);
       $("#bio-small").text("Rating: " + obj.vote_average);
@@ -232,19 +244,15 @@ $(document).ready(function () {
       $(".card-text").text(obj.overview);
       $("#bio-img").attr("src", "https://image.tmdb.org/t/p/w1280/" + obj.poster_path);
       //
-      // if (obj.backdrop_path !== undefined) {
-      console.log("BACKDROP");
-      $("#content").css({
-        "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
-      });
-      //}
+      if (obj.backdrop_path !== undefined) {
+        $("#content").css({
+          "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.backdrop_path + `") no-repeat center center fixed`, "background-size": "cover"
+        });
+      }
       //
-      console.log("POSTER");
       search_arr[0].img = obj.poster_path;
-      console.log("UPDATE USER");
       updateUser();
       addRecentSearch(search_arr[0]);
-      console.log("make prev search vis");
       makeVis("prev-search", true);
     }
 
@@ -259,7 +267,7 @@ $(document).ready(function () {
     }
 
     function addThumb(obj) {
-      if(obj === undefined) return;
+      if (obj === undefined) return;
       var title = obj.snippet.title;
       var div = $("<div>").addClass("card position-relative vidTB m-2");
       var a = $("<a>").attr({
@@ -369,50 +377,9 @@ $(document).ready(function () {
         $("#" + id).addClass("d-none");
     }
 
-
-
-
-
-
-
-
-
-
-
-    /*function userSetup() {
-      var user = $("#input-email").val().trim();
-      console.log(user);
-      var users = database.ref("/users").push();
-        users.set({
-          userName: user,
-        });
-
-      database.ref("/users").once("value", function(s){
-        $.each(s.val(), function(key, val){
-           var recentUser = val.userName;
-           if(recentUser === user){
-              console.log(recentUser);
-              return false;
-           }
-        });
-      });*/
-
-
-    // var userRef = database.ref("/users");
-
-    // using local storage - store email to local storage and firebase. store search data to firebase. 
-    //when user loads page, retrieve search data by matching email from local storage to firebase
-
-
-
-
-
-
-
-
-
-
-
+    //
+    //
+    // end
 
   };
 
