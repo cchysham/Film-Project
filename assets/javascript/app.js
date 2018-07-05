@@ -2,10 +2,8 @@ $(document).ready(function () {
 
   var FilmFinder = function () {
 
-    var user;
     var email;
     var grav_key;
-    var uid;
 
     var vidContent = $("#vid-content");
     var filmContent = $("#film-content");
@@ -20,9 +18,6 @@ $(document).ready(function () {
 
     function init() {
       console.log("ready");
-      grav_key = $.md5("cutesd@hotmail.com");
-      console.log(grav_key);
-      // $("body").append(`<img src="https://www.gravatar.com/avatar/`+grav_key+`?s=200">`);
     }
 
     /*======================================== */
@@ -38,7 +33,6 @@ $(document).ready(function () {
       messagingSenderId: "272003219933"
     };
     firebase.initializeApp(config);
-    var database = firebase.database();
 
     //
     $("#login-submit").on("click", userLogin);
@@ -61,6 +55,24 @@ $(document).ready(function () {
       });
     };
 
+    function userLogOut(e) {
+      e.preventDefault();
+      $("#loginCollapse").collapse('toggle');
+      //
+      firebase.auth().signOut().then(function () {
+        makeVis("login", true);
+        makeVis("logout-submit", false);
+        //
+        setUserIcon(false);
+        search_arr = [];
+        $("#recent-content").empty();
+        makeVis("prev-search", false);
+      }).catch(function (error) {
+        // An error happened.
+        console.log(error);
+      });
+    }
+
     function createUser(email, password) {
       firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
 
@@ -81,8 +93,8 @@ $(document).ready(function () {
         });
         //user.savedSearches = search_arr;
         grav_key = $.md5(email);
-        uid = user.uid;
-        // user.child("savedSearches").setValue("I just set this");
+        setUserIcon(true);
+        // 
         console.log(email, search_arr, grav_key, user.displayName);
 
       } else {
@@ -101,14 +113,16 @@ $(document).ready(function () {
       // }
       // database.ref("/searches").set(obj);
       var user = firebase.auth().currentUser;
-      user.updateProfile({
-        displayName: JSON.stringify(search_arr)
-      }).then(function () {
-        // Update successful.
-      }).catch(function (error) {
-        // An error happened.
-      });
-
+      if (user !== null) {
+        user.updateProfile({
+          displayName: JSON.stringify(search_arr)
+        }).then(function () {
+          // Update successful.
+        }).catch(function (error) {
+          // An error happened.
+          console.log(error);
+        });
+      }
     }
 
 
@@ -161,8 +175,25 @@ $(document).ready(function () {
         url: url,
         method: "GET"
       }).then(function (response) {
-        // console.log(response);
-        addMovieInfo(response.results[0], movie);
+        console.log(response.results.length);
+        if (response.results.length === 0) {
+          console.log("ZERO RESULTS");
+          zeroResultsView();
+        } else {
+          pageView();
+          //
+          addMovieInfo(response.results[0], movie);
+
+          //
+          for (var i = 1; i < response.results.length; i++) {
+            console.log(response.results[i])
+            addRelatedFilmTB(response.results[i]);
+          }
+          //
+          var val = ($("#film-content > div").length > 0);
+          makeVis("film-content", val);
+          makeVis("filmTab-title", val);
+        }
 
         database.ref("/searches").push({
           image: response.results[0].poster_path,
@@ -259,13 +290,16 @@ $(document).ready(function () {
       e.preventDefault();
       var vidID = $(this).attr("data-vidID");
       var title = $(this).attr("title");
-      console.log(vidID);
+      //
       $(".modal-title").text(title);
       $(".modal-body").html(`<iframe width="800" height="500" src="https://www.youtube.com/embed/` + vidID + `"></iframe>`);
     }
 
+    $("#vidModal").on("hide.bs.modal", function(e){
+      $(".modal-body").empty();
+    });
+
     function addRecentSearch(obj) {
-      makeVis("prev-search", true);
       var div = $("<div>").attr({ "title": obj.text, "id": "recentTB" });
       div.css({
         "background": `url("https://image.tmdb.org/t/p/w1280/` + obj.img + `") no-repeat top center`,
@@ -277,14 +311,12 @@ $(document).ready(function () {
     }
 
     function rmvDuplicateSearches(str) {
-      //$('.control').find("div").slice(1, 4).remove();
+      //
       var temp_arr = [];
       $.each(search_arr, function (i, val) {
-        if (val.text == str) {
-          // console.log("MATCH");
-        } else {
+        if (val.text !== str) {
           temp_arr.push(val);
-        }
+        } 
       });
       search_arr = temp_arr;
       // console.log(search_arr);
