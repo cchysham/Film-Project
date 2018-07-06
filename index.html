@@ -17,6 +17,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
+
     <!-- Additional CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -58,7 +59,8 @@
                 </button>
 
                 <!-- ============  LOGIN TOGGLER =============== -->
-                <button class="navbar-toggler" data-toggle="collapse" href="#loginCollapse" type="button" aria-expanded="false" aria-controls="loginCollapse" id="login-icon">
+                <button class="navbar-toggler" data-toggle="collapse" href="#loginCollapse" type="button" aria-expanded="false" aria-controls="loginCollapse"
+                    id="login-icon">
                     <i class="fas fa-user-circle"></i>
                 </button>
             </div>
@@ -86,10 +88,10 @@
                         <input type="password" class="form-control mr-sm-2" id="input-password" placeholder="Password">
                     </div>
 
-                    <button id="login-submit" class="btn btn-outline-primary" type="submit">Log In</button>
+                    <button id="login-submit" class="btn btn-outline-danger" type="submit">Log In</button>
                 </form>
 
-                <button id="logout-submit" class="btn btn-outline-primary my-2 d-none" type="submit">Log Out</button>
+                <button id="logout-submit" class="btn btn-outline-danger my-2 d-none" type="submit">Log Out</button>
 
                 <!-- ./COLLAPSE -->
             </div>
@@ -99,7 +101,7 @@
             <div class="collapse multi-collapse navbar-collapse" id="searchCollapse">
                 <form class="form-inline my-2 ml-auto" id="navbarSearch">
                     <input id="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
+                    <button id="search-button" class="btn btn-outline-danger" type="submit">Search</button>
                 </form>
                 <!-- ./COLLAPSE -->
             </div>
@@ -111,7 +113,7 @@
     <div class="row justify-content-center align-items-center fixed-height m-0" id="content">
 
         <!-- ============  RESULTS ======================== -->
-        <h3 class="text-muted d-none" id="zeroResults">YOUR&nbsp; SEARCH&nbsp;  RETURNED&nbsp;  0&nbsp;  RESULTS</h3>
+        <h3 class="text-muted d-none" id="zeroResults">YOUR&nbsp; SEARCH&nbsp; RETURNED&nbsp; 0&nbsp; RESULTS</h3>
 
         <!-- ============  WELCOME ======================== -->
 
@@ -131,7 +133,7 @@
                             <input type="text" class="form-control" id="input-search" placeholder="Enter your search here">
                         </div>
 
-                        <button type="submit" id="wSearch-btn" class="btn btn-primary mb-2">Submit</button>
+                        <button type="submit" id="wSearch-btn" class="btn btn-danger mb-2">Submit</button>
                     </form>
                 </div>
             </section>
@@ -168,11 +170,13 @@
                         <a class="nav-link active" id="filmTab-title">RELATED FILMS</a>
                     </li>
                 </ul>
-                <div class="scrolling-wrapper-flexbox bg-dark p-3 mb-4" id="film-content">
-                    
+
+                <div class="scrolling-wrapper-flexbox bg-dark scroller p-3 mb-4" id="film-content">
+
                     <!-- RELATED FILMS POPULATE HERE -->
 
                 </div>
+
 
 
                 <!-- =====================  VIDEOS ======================== -->
@@ -182,7 +186,8 @@
                         <a class="nav-link active" id="filmTab-title">VIDEOS</a>
                     </li>
                 </ul>
-                <div class="scrolling-wrapper-flexbox bg-dark p-3" id="vid-content">
+
+                <div class="scrolling-wrapper-flexbox bg-dark scroller p-3" id="vid-content">
 
                     <!-- YOUTUBE VIDEOS POPULATE HERE -->
 
@@ -196,9 +201,9 @@
 
             <h6 class="text-light">RECENT SEARCHES</h6>
 
-            <div class="scrolling-wrapper-flexbox bg-light rounded p-2 mb-4" id="recent-content">
+            <div class="scrolling-wrapper-flexbox bg-light scroller rounded p-2 mb-4" id="recent-content">
 
-              <!-- SEARCH BUBBLES POPULATE HERE -->
+                <!-- SEARCH BUBBLES POPULATE HERE -->
 
             </div>
         </div>
@@ -210,7 +215,8 @@
 
     <footer class="footer bg-dark fixed-bottom">
         <div class="container text-center">
-            <small class="text-muted"><i class="far fa-copyright"></i> 2018 Film Finder</small>
+            <small class="text-muted">
+                <i class="far fa-copyright"></i> 2018 Film Finder</small>
         </div>
     </footer>
 
@@ -234,6 +240,7 @@
     <!-- Moment.js -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
+    <!-- MD5 -->
     <script src="assets/javascript/md5.js"></script>
 
     <!-- App js  -->

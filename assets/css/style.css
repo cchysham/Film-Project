@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css?family=Fugaz+One|Raleway:300,400,500,700');
+
 html, body{
     width: 100%;
     height:100%;
@@ -5,6 +8,19 @@ html, body{
 
 body{
     background-color:#000;
+    font-family:"Raleway",sans-serif;
+}
+
+*:focus, button:focus,
+.form-control:focus {
+    border-color: #dc3545;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.5);
+}
+
+.navbar-brand{
+    font-family:"Fugaz One",sans-serif;
+    font-size:1.75rem;
 }
 
 .dropdown-menu{
@@ -47,10 +63,14 @@ body{
   .input-group-text{
     font-size: 1.25rem;
     font-weight: 300;
+    color: #FFF;
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    border-radius: .25rem;
   }
 
   #query{
-    width: calc(100% - 85px);
+    width: calc(100% - 86px);
   }
 
 .fixed-height{
@@ -58,7 +78,7 @@ body{
 }
 
 #welcome-search .input-group{
-    width: calc(100% - 86px);
+    width: calc(100% - 87px);
 }
 
 .set-height{
@@ -85,6 +105,11 @@ body{
     cursor: pointer;
 }
 
+.filmTB, .vidTB{
+    background-color:inherit;
+    border:none;
+}
+
 .filmTB img{
     max-height:175px;
     transition: .5s ease;
@@ -103,7 +128,7 @@ body{
 }
 
 .tbTitle{
-    background-color:#ED4A4E;
+    background-color:#dc3545;
     color:white;
     margin-top: 0;
     margin-bottom: 0;
@@ -118,6 +143,7 @@ body{
     transition: .5s ease;
     opacity:0;
     min-width: 100px;
+    white-space: normal;
 }
 
 /* ===========  RECENT SEARCHES  =================*/
@@ -129,6 +155,7 @@ body{
     width:150px;
     height:150px;
     cursor: pointer;
+    box-shadow: 0 0 10px #333;
 }
 
 .clip-circle{
@@ -147,8 +174,32 @@ body{
     padding-left: 0;
 }
 
-/*#title {
-    color: white;
-    top: 8px;
-    width: 250px;
-}*/
+/*
+ *  scrollbar
+ */
+
+ .scroller::-webkit-scrollbar-track
+ {
+     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+     background-color: #666;
+ }
+ 
+ .scroller::-webkit-scrollbar
+ {
+     width: 10px;
+     background-color: #666;
+ }
+ 
+ .scroller::-webkit-scrollbar-thumb
+ {
+     background-color: #dc3545;	
+     background-image: -webkit-linear-gradient(45deg,
+                                               rgba(255, 255, 255, .2) 25%,
+                                               transparent 25%,
+                                               transparent 50%,
+                                               rgba(255, 255, 255, .2) 50%,
+                                               rgba(255, 255, 255, .2) 75%,
+                                               transparent 75%,
+                                               transparent)
+ }
+ 
