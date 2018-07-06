@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
 
-    <!-- Scroll CSS -->
-    <link rel="stylesheet" href="assets/css/scroll.css">
     <!-- Additional CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -90,10 +88,10 @@
                         <input type="password" class="form-control mr-sm-2" id="input-password" placeholder="Password">
                     </div>
 
-                    <button id="login-submit" class="btn btn-outline-primary" type="submit">Log In</button>
+                    <button id="login-submit" class="btn btn-outline-danger" type="submit">Log In</button>
                 </form>
 
-                <button id="logout-submit" class="btn btn-outline-primary my-2 d-none" type="submit">Log Out</button>
+                <button id="logout-submit" class="btn btn-outline-danger my-2 d-none" type="submit">Log Out</button>
 
                 <!-- ./COLLAPSE -->
             </div>
@@ -103,7 +101,7 @@
             <div class="collapse multi-collapse navbar-collapse" id="searchCollapse">
                 <form class="form-inline my-2 ml-auto" id="navbarSearch">
                     <input id="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
+                    <button id="search-button" class="btn btn-outline-danger" type="submit">Search</button>
                 </form>
                 <!-- ./COLLAPSE -->
             </div>
@@ -135,7 +133,7 @@
                             <input type="text" class="form-control" id="input-search" placeholder="Enter your search here">
                         </div>
 
-                        <button type="submit" id="wSearch-btn" class="btn btn-primary mb-2">Submit</button>
+                        <button type="submit" id="wSearch-btn" class="btn btn-danger mb-2">Submit</button>
                     </form>
                 </div>
             </section>
@@ -172,28 +170,13 @@
                         <a class="nav-link active" id="filmTab-title">RELATED FILMS</a>
                     </li>
                 </ul>
-                <div class="pn-ProductNav_Wrapper" id="filmContentWrapper">
-                    <nav id="pnProductNav" class="pn-ProductNav dragscroll">
-                        <div id="pnProductNavContents" class="pn-ProductNav_Contents bg-dark p-3 mb-4">
-                            <div id="film-content">
 
-                                <!-- RELATED FILMS POPULATE HERE -->
+                <div class="scrolling-wrapper-flexbox bg-dark scroller p-3 mb-4" id="film-content">
 
-                            </div>
-                            <span id="pnIndicator" class="pn-ProductNav_Indicator"></span>
-                        </div>
-                    </nav>
-                    <button id="pnAdvancerLeft" class="pn-Advancer pn-Advancer_Left" type="button">
-                        <svg class="pn-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024">
-                            <path d="M445.44 38.183L-2.53 512l447.97 473.817 85.857-81.173-409.6-433.23v81.172l409.6-433.23L445.44 38.18z" />
-                        </svg>
-                    </button>
-                    <button id="pnAdvancerRight" class="pn-Advancer pn-Advancer_Right" type="button">
-                        <svg class="pn-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024">
-                            <path d="M105.56 985.817L553.53 512 105.56 38.183l-85.857 81.173 409.6 433.23v-81.172l-409.6 433.23 85.856 81.174z" />
-                        </svg>
-                    </button>
+                    <!-- RELATED FILMS POPULATE HERE -->
+
                 </div>
+
 
 
                 <!-- =====================  VIDEOS ======================== -->
@@ -203,8 +186,8 @@
                         <a class="nav-link active" id="filmTab-title">VIDEOS</a>
                     </li>
                 </ul>
-                
-                <div class="scrolling-wrapper-flexbox bg-dark p-3" id="vid-content">
+
+                <div class="scrolling-wrapper-flexbox bg-dark scroller p-3" id="vid-content">
 
                     <!-- YOUTUBE VIDEOS POPULATE HERE -->
 
@@ -218,7 +201,7 @@
 
             <h6 class="text-light">RECENT SEARCHES</h6>
 
-            <div class="scrolling-wrapper-flexbox bg-light rounded p-2 mb-4" id="recent-content">
+            <div class="scrolling-wrapper-flexbox bg-light scroller rounded p-2 mb-4" id="recent-content">
 
                 <!-- SEARCH BUBBLES POPULATE HERE -->
 
@@ -259,9 +242,6 @@
 
     <!-- MD5 -->
     <script src="assets/javascript/md5.js"></script>
-
-    <!-- Scroll -->
-    <script src="assets/javascript/scroll.js"></script>
 
     <!-- App js  -->
     <script src="assets/javascript/app.js"></script>
